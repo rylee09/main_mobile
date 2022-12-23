@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#7d000000">
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/report_border"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical">
+        
+        <RelativeLayout 
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#48BB8F">
+            
+            <TextView android:id="@+id/nav_title"
+                android:layout_width="250dp"                
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="#ffffff"                
+                android:maxEms="29"
+            	android:singleLine="false"
+            	android:ellipsize="end"
+                />
+            
+            <LinearLayout android:id="@+id/cancle"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"                
+                android:gravity="center">                
+	            <ImageView 
+	                android:layout_width="20dp"
+	                android:layout_height="20dp"
+	                android:background="@mipmap/cancle"
+	                />                
+            </LinearLayout>                        
+            
+        </RelativeLayout>
+        
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#DEEFE3"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+            
+            <TextView android:id="@+id/through"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="#415E57"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp"                
+                android:visibility="invisible"/>
+            
+            <View android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#48BB8F"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"/>
+            
+            <LinearLayout  
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/round_border"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+                
+                <TextView android:id="@+id/time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:text="@string/cal_nav"/>
+                
+                <View android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#648E80"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"/>
+                
+                <TextView android:id="@+id/distance"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    />
+                
+            </LinearLayout>
+            
+            <TextView android:id="@+id/fuel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="2dp"
+                android:textColor="#415E57"
+                android:textSize="16sp"
+                android:text="@string/fuel"/>
+            
+        </LinearLayout>
+        
+        <LinearLayout  
+                android:layout_width="match_parent"
+                android:layout_height="70dp"                                
+                android:orientation="horizontal"
+                android:gravity="center">
+                
+               	<TextView android:id="@+id/sure"
+               	    android:layout_width="100dp"
+               	    android:layout_height="40dp"
+               	    android:background="@drawable/round_border_sure"
+               	    android:text="@string/go"
+               	    android:gravity="center"
+               	    android:clickable="false"/>
+                
+            </LinearLayout>
+        
+    </LinearLayout>
+    
+
+</RelativeLayout>

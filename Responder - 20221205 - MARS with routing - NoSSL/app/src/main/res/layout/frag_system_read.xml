@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:background="@color/black"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="System Readiness"
+                android:textColor="#80ffff"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/black"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
+
+            <RelativeLayout
+                android:id="@+id/rl_parade_state"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/system_ready_bg"
+                android:paddingLeft="10dp"
+                android:paddingRight="25dp">
+
+                <ImageView
+                    android:id="@+id/iv_parade_state"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/swapvehicle"></ImageView>
+
+                <TextView
+                    android:id="@+id/tv_parade_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/iv_parade_state"
+                    android:text="Low Fuel"
+                    android:textColor="#80ffff"
+                    android:textSize="16sp"></TextView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_swap_veh"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/system_ready_bg"
+                android:paddingLeft="10dp"
+                android:paddingRight="25dp">
+
+                <ImageView
+                    android:id="@+id/iv_swap_vehicle"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/swapvehicle"></ImageView>
+
+                <TextView
+                    android:id="@+id/tv_swap_vehicle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/iv_swap_vehicle"
+                    android:text="Low Logistics"
+                    android:textColor="#80ffff"
+                    android:textSize="16sp"></TextView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_veh_down"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@mipmap/system_ready_bg"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="25dp"
+                android:paddingBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/iv_vehicle_down"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/vehicledown"></ImageView>
+
+                <TextView
+                    android:id="@+id/tv_bp_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/iv_vehicle_down"
+                    android:text="Vehicle Down"
+                    android:textColor="#80ffff"
+                    android:textSize="16sp"></TextView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_pump_tyre"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@mipmap/system_ready_bg"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="25dp">
+
+                <ImageView
+                    android:id="@+id/iv_pump_tyre"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/pumptyre"></ImageView>
+
+                <TextView
+                    android:id="@+id/tv_pump_tyre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/iv_pump_tyre"
+                    android:text="Pump Tyre"
+                    android:textColor="#80ffff"
+                    android:textSize="16sp"></TextView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_send_out"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/system_ready_bg"
+                android:paddingLeft="10dp"
+                android:paddingRight="25dp"
+                android:visibility="invisible">
+
+                <ImageView
+                    android:id="@+id/iv_send_out"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/pumptyre"></ImageView>
+
+                <TextView
+                    android:id="@+id/tv_send_out"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/iv_send_out"
+                    android:text="Send Out"
+                    android:textColor="#80ffff"
+                    android:textSize="16sp"></TextView>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

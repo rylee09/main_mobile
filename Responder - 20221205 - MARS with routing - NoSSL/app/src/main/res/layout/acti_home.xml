@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:background="#f6f6f6"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:background="@color/new_main_title_bg"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginLeft="30dp"
+                    android:background="@mipmap/user"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp">
+                </ImageView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+            <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/iv_logout"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:background="@mipmap/logout"
+                android:layout_width="36dp"
+                android:layout_height="32dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!-- <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:background="@drawable/new_main_top_style"
+                android:layout_width="match_parent"
+                android:layout_height="35dp">
+                <TextView
+                    android:textColor="#2b805c"
+                    android:text="Yet to perform HOTO."
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <ImageView
+                android:layout_marginLeft="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@mipmap/new_bell" />    -->
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/rl_status"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:background="@mipmap/new_main_btn"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/iv_link_status"
+                    android:background="@mipmap/linkstatus"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp">
+                </ImageView>
+                <TextView
+                    android:layout_toRightOf="@+id/iv_link_status"
+                    android:layout_marginLeft="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/tv_link_status"
+                    android:layout_marginTop="20dp"
+                    android:textSize="16sp"
+                    android:text="Link Status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+                <LinearLayout
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical"
+                    android:gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_status"
+                        android:text="Online"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv_status_time"
+                        android:textColor="@color/new_main_bottom_text"
+                        android:text="12.35 PM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/rl_taskAssignment"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@mipmap/new_main_btn"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp">
+
+                <ImageView
+                    android:id="@+id/iv_a_status"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/activationstatus"></ImageView>
+
+                <TextView
+                    android:id="@+id/tv_a_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@id/iv_a_status"
+                    android:text="Activation Status"
+                    android:textSize="16sp"></TextView>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:gravity="right"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_activationStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ready" />
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:background="@mipmap/new_main_btn"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/iv_bp_status"
+                    android:background="@mipmap/backup_peerstatus"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp">
+                </ImageView>
+                <TextView
+                    android:layout_toRightOf="@+id/iv_bp_status"
+                    android:layout_marginLeft="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/tv_bp_status"
+                    android:layout_marginTop="20dp"
+                    android:textSize="16sp"
+                    android:text="Backup/Peer Status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+                <LinearLayout
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical"
+                    android:gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_backupEAS"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ready" />
+
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/rl_system_read"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:background="@mipmap/new_main_btn"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/iv_sys_read"
+                    android:background="@mipmap/systemreadiness"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp">
+                </ImageView>
+                <TextView
+                    android:layout_toRightOf="@+id/iv_sys_read"
+                    android:layout_marginLeft="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="20dp"
+                    android:textSize="16sp"
+                    android:text="System Readiness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+                <LinearLayout
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical"
+                    android:gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_system_ready"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ready" />
+
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">Driver</string>
+
+    <string name="album_view">Select Pictures</string>
+    <string name="image_view">Click Select</string>
+    <string name="add">Submit</string>
+    <string name="selected">Selected</string>
+    <string name="limit_exceeded">Maximum selection of %d photos</string>
+
+    <string name="next_direction">Next direction: %s</string>
+    <string name="distance_remaining">Distance remaining: %s %s</string>
+    <string name="time_remaining">ETA: %s</string>
+
+    <string name="register_name">Please enter your user name</string>
+
+    <string name="register_pwd">Please enter your user password</string>
+
+    <string name="register_location">Please select your Activation Location</string>
+
+    <string name="incident_type">Incident Type :</string>
+
+    <string name="location_of_incident">Location of incident :</string>
+    <string name="activation_location">Activation Location :</string>
+
+
+    <string name="report_time">Report Time :</string>
+    <string name="number_of_casualties">Number of casualties:</string>
+    <string name="incident_description">Incident Description :</string>
+    <string name="condition_of_casualties">Casualty Condition:</string>
+
+    <string name="null_location">Unable to locate</string>
+    <string name="sure">determine</string>
+    <string name="fuel">Estimated fuel consumption:</string>
+    <string name="cal_nav">Calculating navigation&#8230;</string>
+    <string name="request_fail">Request failed</string>
+    <string name="request_data_error">Server data is abnormal, please try again</string>
+    <string name="hour">hour</string>
+    <string name="minute">minute</string>
+    <string name="seconds">second</string>
+    <string name="through">passed:</string>
+    <string name="go">go to</string>
+    <string name="start_nav">Navigation starts</string>
+    <string name="end_nav">Navigation ends</string>
+    <string name="close_nav">Navigation off</string>
+    <string name="gps_info">No GPS, showing approximate location</string>
+    <string name="nav_info">Go to highlight route </string>
+    <string name="say_start">start navigation</string>
+    <string name="stop_nav">stop navigation</string>
+    <string name="limit_speed">front speed limit</string>
+    <string name="oooops">data exception, navigation ends</string>
+
+
+    <string name="start_from_location_key" translatable="false">start_from_location</string>
+    <string name="error_not_enough_waypoints">A route needs at least 2 waypoints</string>
+    <string name="error_location_not_found">Location not found</string>
+    <string name="error_route_not_available">Current route is not available</string>
+    <string name="current_night_mode" translatable="false">current_night_mode</string>
+    <string name="error_calculating_route">There was an error calculating the route</string>
+    <string name="unit_type_key" translatable="false">unit_type</string>
+    <string name="default_locale" translatable="false">default_for_device</string>
+    <string name="default_unit_type" translatable="false">default_for_device</string>
+    <string name="language_key" translatable="false">language</string>
+    <string name="route_profile_key" translatable="false">route_profile</string>
+    <string name="simulate_route_key" translatable="false">simulate_route</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="agree">I agree</string>
+    <string name="legal_title">Legal Notice</string>
+    <string name="error_too_far_from_start_title">Too far from start</string>
+    <string name="error_too_far_from_start_message">Would you like to recalculate the route from your current location?</string>
+    <string name="first_navigation_dialog_key" translatable="false">first_navigation_dialog</string>
+
+    <string name="location_permission_denied">User denied permission for device location.</string>
+
+
+    <string name="config_data_sdcard_offline_dir">ArcGIS/</string>
+    <string name="singapore_mmpk">Singapore</string>
+    <string name="login_error">Wrong username/ password</string>
+</resources>

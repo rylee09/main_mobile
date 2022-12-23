@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/incident_bg">
+
+        <LinearLayout
+            android:id="@+id/ll_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/incident_bg"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titleView"
+                android:layout_width="275dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Select Evac"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:orientation="horizontal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <!--                <RadioGroup-->
+                <!--                    android:id="@+id/_sent_out_evacGroup"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="match_parent">-->
+
+                <!--                    <RadioButton-->
+                <!--                        android:id="@+id/rb_sent_out_MC"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:checked="false"-->
+                <!--                        android:onClick="onClick"-->
+                <!--                        android:text=" Medical Centre"-->
+                <!--                        android:textColor="#FFFFFF" />-->
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Evac Centre "
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/tv_act_select_EvacCentre"
+                    android:layout_width="369dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/incident_border"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:textColor="@color/incident_textcolor"
+                    android:textSize="18sp" />
+
+
+                <!--                    <RadioButton-->
+                <!--                        android:id="@+id/rb_sent_out_hospital"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:onClick="onClick"-->
+                <!--                        android:text=" Hospital"-->
+                <!--                        android:layout_marginTop="20dp"-->
+                <!--                        android:textColor="#FFFFFF" />-->
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Type"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+<!--                <AutoCompleteTextView-->
+<!--                    android:id="@+id/tv_act_select_Hospital"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:layout_marginLeft="20dp"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:layout_marginRight="20dp"-->
+<!--                    android:background="@drawable/incident_border"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:paddingStart="20dp"-->
+<!--                    android:textColor="@color/incident_textcolor"-->
+<!--                    android:textSize="18sp" />-->
+
+                <!--                </RadioGroup>-->
+
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/sp_evac_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:textColor="@color/incident_textcolor"
+                    android:textSize="18sp"
+                    app:ms_arrow_tint="@color/white"
+                    app:ms_background_color="@color/incident_border" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Number of Casualties"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/sp_no_of_casualties"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:textColor="@color/incident_textcolor"
+                    android:textSize="18sp"
+                    app:ms_arrow_tint="@color/white"
+                    app:ms_background_color="@color/incident_border" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Remarks: "
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/et_frag_send_out_evac_remarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/incident_border"
+                    android:gravity="center_vertical"
+                    android:inputType="textMultiLine"
+                    android:paddingStart="20dp"
+                    android:textColor="@color/incident_textcolor"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical" />
+
+
+            <Button
+                android:id="@+id/send_out_btn_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/incident_confirm"
+                android:onClick="onClick"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:text="Confirm"
+                android:textColor="#2e5e76"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

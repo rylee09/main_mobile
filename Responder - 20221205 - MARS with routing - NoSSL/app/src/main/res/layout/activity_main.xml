@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <com.esri.arcgisruntime.mapping.view.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="visible"/>
+        </com.esri.arcgisruntime.mapping.view.MapView>
+
+        <LinearLayout
+            android:id="@+id/ll_menmue"
+            android:layout_width="80dp"
+            android:layout_height="117dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="false"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.7"
+                android:background="@drawable/select_main_meue"
+                android:orientation="vertical"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/ll_leftbase"
+                    android:layout_width="match_parent"
+                    android:layout_height="63dp"
+                    android:gravity="center"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/iv_leftbase2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:onClick="onClick"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_statusText2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_self"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/ll_menmue"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="130dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="360dp"
+            android:src="@mipmap/iv_self_bg" />
+
+        <ImageView
+            android:id="@+id/iv_phone"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/ll_menmue"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="230dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="270dp"
+            android:src="@mipmap/phone"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/iv_incident"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/ll_menmue"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="320dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="170dp"
+            android:src="@mipmap/incident_shortcut"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:id="@+id/ll_username"
+            android:layout_width="137dp"
+            android:layout_height="36dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_callsign"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#F8F2F2"
+                android:fontFamily="sans-serif-black"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/iv_bg"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_username"
+            android:layout_marginLeft="8dp"
+            android:alpha="0.7"
+            android:background="@drawable/select_main_meue_center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/iv_leftbase"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="15dp"
+                android:onClick="onClick"
+                android:visibility="invisible"></ImageView>
+
+            <TextView
+                android:id="@+id/tv_statusText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="15dp"
+                android:text="Arrive LUP"
+                android:textColor="@color/white"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="121dp"
+            android:layout_alignParentBottom="true"
+            android:background="#1DA623"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="121dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_remain_dist"
+                        android:layout_width="390dp"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="20px"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_ETA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="20px"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:id="@+id/tv_directions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:paddingHorizontal="20px"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+                </TableRow>
+
+            </TableLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <com.example.st.arcgiscss.views.RotationLoadingView
+        android:id="@+id/item_loading_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"></com.example.st.arcgiscss.views.RotationLoadingView>
+</RelativeLayout>

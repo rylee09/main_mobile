@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    <LinearLayout
+        android:id="@+id/LinearLayout_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#f6f6f6"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+        <FrameLayout
+            android:id="@+id/page1"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent">
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/page2"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:visibility="gone" >
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/page3"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:visibility="gone" >
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/page4"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:visibility="gone" >
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/page5"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:visibility="gone" >
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingTop="6dp"
+        android:id="@+id/LinearLayout_main_group"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_home"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <Button
+                android:id="@+id/btn_home"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@mipmap/home_select" />
+            <TextView
+                android:id="@+id/tv_home"
+                android:layout_marginTop="5dp"
+                android:text="Home"
+                android:textColor="#7cb756"
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_task_request"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <Button
+                android:id="@+id/btn_task_request"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@mipmap/taskrequest_unselect" />
+            <TextView
+                android:id="@+id/tv_task_request"
+                android:layout_marginTop="5dp"
+                android:text="Task Request"
+                android:textColor="@color/new_main_bottom_text"
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+       <!-- <LinearLayout
+            android:id="@+id/ll_task_assign"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <Button
+                android:id="@+id/btn_task_assign"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@mipmap/taskassign_unselect" />
+            <TextView
+                android:id="@+id/tv_task_assign"
+                android:layout_marginTop="5dp"
+                android:text="Task Assign"
+                android:textColor="@color/new_main_bottom_text"
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout> -->
+        <LinearLayout
+            android:id="@+id/ll_more"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <Button
+                android:id="@+id/btn_more"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@mipmap/more_unselect" />
+            <TextView
+                android:id="@+id/tv_more"
+                android:layout_marginTop="5dp"
+                android:text="More"
+                android:textColor="@color/new_main_bottom_text"
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/incident_bg"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:background="@color/incident_bg"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/waypoint"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+            <TextView
+                android:id="@+id/tv_waypoint_number"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:text="WayPoint1:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <TextView
+            android:gravity="center_vertical"
+            android:id="@+id/tv_waypoint"
+            android:textColor="@color/incident_textcolor"
+            android:textSize="15sp"
+            android:background="@drawable/incident_border"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </LinearLayout>
+</LinearLayout>

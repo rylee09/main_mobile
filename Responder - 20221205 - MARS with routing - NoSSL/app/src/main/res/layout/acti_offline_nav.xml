@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.esri.arcgisruntime.mapping.view.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </com.esri.arcgisruntime.mapping.view.MapView>
+
+
+    <LinearLayout android:id="@+id/nav_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="80dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#AF000000">
+        <View android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="#ffffff"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:minHeight="80dp"
+            android:layout_height="wrap_content">
+            <TextView android:id="@+id/direction_tip"
+                android:layout_width="match_parent"
+                android:minHeight="80dp"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:text=""/>
+
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:alpha="0.7"
+        android:layout_marginBottom="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@drawable/select_main_meue"
+        android:layout_width="wrap_content"
+        android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/ll_self"
+        android:gravity="center"
+        android:layout_width="45dp"
+        android:layout_height="45dp">
+        <ImageView
+            android:id="@+id/iv_self"
+            android:layout_width="23dp"
+            android:src="@mipmap/select_self"
+            android:layout_gravity="center"
+            android:layout_height="23dp" />
+    </LinearLayout>
+    </LinearLayout>
+    <com.example.st.arcgiscss.views.RotationLoadingView
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:id="@+id/item_loading_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </com.example.st.arcgiscss.views.RotationLoadingView>
+
+</RelativeLayout>

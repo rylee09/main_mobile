@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="white">#FFFFFF</color>
+    <color name="red">#EE1111</color>
+    <color name="black">#ff000000</color>
+    <color name="grey">#FF999999</color>
+    <color name="light_grey">#99999999</color>
+    <color name="dark_grey">#FF666666</color>
+    <color name="grey_e">#FFeeeeee</color>
+
+    <color name="transparent_background">#00000000</color>
+    <color name="transparent">#80000000</color>
+
+    <color name="blue">#ff94c7e7</color>
+    <color name="green">#ff55c45f</color>
+    <color name="line_color">#959595</color>
+    <color name="bg_gray">#f1f1f1</color>
+    <color name="btn_pre">#92DAC7</color>
+    <color name="theme_color">#37af94</color>
+    <color name="province_line_border">#C7C7C7</color>
+
+
+    <color name="grey_efefef">#efefef</color>
+    <color name="grey_efeff4">#efeff4</color>
+    <color name="grey_a6a2a1">#a6a2a1</color>
+    <color name="black_333333">#333333</color>
+
+    <color name="multiple_image_select_primaryDark">#333333</color>
+    <color name="multiple_image_select_accent">#333333</color>
+    <color name="multiple_image_select_primary">#333333</color>
+
+
+
+    <color name="orange_e05a17">#e05a17</color>
+
+    <color name="split_line">#11112233</color>
+    <color name="text1">#59B29C</color>
+    <color name="text2">#333333</color>
+
+    <color name="devide_line">#CBCED2</color>
+
+    <color name="incident_bg">#2e343b</color>
+    <color name="incident_border">#383e45</color>
+    <color name="incident_textcolor">#919090</color>
+
+    <color name="mainPrimary">#0868e3</color>
+    <color name="mainhead_text">#9fc4f4</color>
+    <color name="main_line">#f5f5f5</color>
+    <color name="incident_n_ltbg">#4e4f4f</color>
+
+    <color name="new_main_bottom_text">#7d7d7d</color>
+    <color name="system_line">#e8e8e8</color>
+    <color name="system_text_tips">#a2a2a2</color>
+    <color name="new_main_title_bg">#75c9a8</color>
+
+    <color name="main_red">#ff0000</color>
+
+</resources>

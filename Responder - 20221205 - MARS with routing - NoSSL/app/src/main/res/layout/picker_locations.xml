@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+   android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:background="@color/incident_n_ltbg"
+        android:alpha="0.9"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </RelativeLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:orientation="vertical">
+    <RelativeLayout
+        android:background="@color/white"
+        android:id="@+id/rl_locations"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content">
+        <ScrollView
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_root"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:background="@color/mainPrimary"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+            <TextView
+            android:id="@+id/titleView"
+            android:text="Choose a Location"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+            </LinearLayout>
+        <ListView
+            android:divider="@null"
+            android:background="@color/white"
+            android:id="@+id/lv_locaitons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ListView>
+            <Button
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/tv_tips_yes"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_gravity="center"
+                android:onClick="onClick"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:background="@drawable/incident_confirm"
+                android:text="OK" />
+     </LinearLayout>
+    </ScrollView>
+
+
+
+    </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>
