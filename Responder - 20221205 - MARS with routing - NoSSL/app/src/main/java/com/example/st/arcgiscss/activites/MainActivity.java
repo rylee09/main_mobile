@@ -7,6 +7,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -358,6 +359,10 @@ public class MainActivity<INCIDENT> extends BaseActivity{
                     intent2.putExtra("incident", incident);
                     startActivity(intent2);
                 }
+
+                Intent switchApp = new Intent();
+                switchApp.setComponent(new ComponentName("com.heyletscode.chattutorial","com.heyletscode.chattutorial.ChatActivity"));
+                startActivity(switchApp);
             }
         });
 

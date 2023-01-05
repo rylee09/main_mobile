@@ -149,6 +149,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
+        <Button
+            android:id="@+id/chatAppSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Live Chat"
+            />
+
     </LinearLayout>
 
 </LinearLayout>

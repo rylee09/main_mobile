@@ -3,6 +3,7 @@ package com.example.st.arcgiscss.fragments;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -84,15 +86,19 @@ public class HomeFragment extends D3Fragment {
     //ZN - 20210819
     private NewIncident incident;
     private String temp_timestamp;
+    private Button openChat;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.i("EVENT", "[HomeFragment] onCreateView");
 
+
+
         View view = setContentView(inflater, R.layout.frag_status);
         initData();
         initView();
+
 
         //ZN - 20210630
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(myLinkStatusReceiver,

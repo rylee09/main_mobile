@@ -208,6 +208,8 @@ public class NewMainActivity extends BaseActivity {
 
     private boolean isCancelIncidentListenerRegistered;
 
+    private Button openChat;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O_MR1)
     @Override
@@ -215,6 +217,25 @@ public class NewMainActivity extends BaseActivity {
         Log.i("EVENT", "[NewMainActivity] onCreate");
         super.onCreate(arg0);
         setContentView(R.layout.acti_newhome);
+
+        findViewById(R.id.chatAppSwitch)
+                .setOnClickListener(v->{
+                    PackageManager manager = getPackageManager();
+                    Intent intent = manager.getLaunchIntentForPackage("com.heyletscode.chattutorial");
+                    intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                    startActivity(intent);                });
+
+
+//        openChat.findViewById(R.id.chatAppSwitch);
+//        openChat.setOnClickListener(v->{
+//            Intent i = new Intent(Intent.ACTION_MAIN);
+//            PackageManager manager = getPackageManager();
+//            i = manager.getLaunchIntentForPackage("com.heyletscode.chattutorial");
+//            i.addCategory(Intent.CATEGORY_LAUNCHER);
+//            startActivity(i);
+//
+//        });
+
         if (CacheUtils.getUser(this)!=null){
             user = CacheUtils.getUser(this);
         }
