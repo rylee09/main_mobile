@@ -312,6 +312,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
                     Log.i("RESP", "[LoginActivity] msg: " + resp_msg);
                     User userType = new User(resp_msg);
 
+                    CacheUtils.saveUsername(LoginActivity.this, username);
                     CacheUtils.saveUserId(LoginActivity.this,userType.getId()+"");
                     CacheUtils.saveActivationLocation(LoginActivity.this,act_location);
                     CacheUtils.saveUser(LoginActivity.this, userType);

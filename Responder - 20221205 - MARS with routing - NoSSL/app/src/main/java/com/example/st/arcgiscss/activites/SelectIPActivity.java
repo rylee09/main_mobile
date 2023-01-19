@@ -94,8 +94,8 @@ public class SelectIPActivity extends Activity implements View.OnClickListener {
 
         //ZN - 20220710 put in default string
         if (ip == null || ip.equalsIgnoreCase( ""));
-              ip = "192.168.43.152";
-
+//              ip = "192.168.43.152";
+                ip = "172.20.10.4";
         et_ip.setText(ip);
 
 

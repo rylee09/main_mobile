@@ -218,10 +218,17 @@ public class NewMainActivity extends BaseActivity {
         super.onCreate(arg0);
         setContentView(R.layout.acti_newhome);
 
+        String username = CacheUtils.getUsername(getApplication());
+        System.out.println("Current Username is: " + username);
+
+        String packageName = "com.heyletscode.chattutorial";
+
         findViewById(R.id.chatAppSwitch)
                 .setOnClickListener(v->{
                     PackageManager manager = getPackageManager();
-                    Intent intent = manager.getLaunchIntentForPackage("com.heyletscode.chattutorial");
+                    Intent intent = manager.getLaunchIntentForPackage(packageName);
+//                    intent.setClassName(packageName,"com.heyletscode.chattutorial.ChatActivity");
+                    intent.putExtra("username", username);
                     intent.addCategory(Intent.CATEGORY_LAUNCHER);
                     startActivity(intent);                });
 

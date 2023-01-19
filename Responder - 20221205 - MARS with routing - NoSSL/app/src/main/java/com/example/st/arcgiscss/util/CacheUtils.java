@@ -230,5 +230,20 @@ public class CacheUtils {
         return user;
     }
 
+    public static void saveUsername(Context context,
+                                    String username) {
+
+        ACache mCache = ACache.get(context, Constants.CACHE_INFO);
+        mCache.put(Constants.LOGIN_USER, username);
+    }
+
+    public static String getUsername(Context context) {
+
+        ACache mCache = ACache.get(context, Constants.CACHE_INFO);
+        String username = mCache
+                .getAsString(Constants.LOGIN_USER);
+        return username;
+    }
+
 
 }
