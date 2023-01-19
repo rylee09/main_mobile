@@ -8,13 +8,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -65,6 +71,7 @@ public class SelectIPActivity extends Activity implements View.OnClickListener {
     private int int_imei_result;
     private String str_imei = "";
     private static final int READ_PHONE_STATE = 100;
+    private RadioButton sw1, sw2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +83,23 @@ public class SelectIPActivity extends Activity implements View.OnClickListener {
         initListner();
         initData();
 
+        sw1 = findViewById(R.id.httpsSwitch);
+        sw2 = findViewById(R.id.httpsSwitch);
+
 //        //ZN - 20220208 check for valid IMEI - permission to read imei
 //        if (Build.VERSION.SDK_INT >= 26) {
 //            showContacts();
 //        }
 
+    }
+
+    public void onSwitchClick(View view){
+        if(sw1.isChecked()){
+            Toast.makeText(getApplicationContext(), "on", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getApplicationContext(), "off", Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     private void initListner() {
@@ -94,8 +113,8 @@ public class SelectIPActivity extends Activity implements View.OnClickListener {
 
         //ZN - 20220710 put in default string
         if (ip == null || ip.equalsIgnoreCase( ""));
-//              ip = "192.168.43.152";
-                ip = "172.20.10.4";
+        ip = "192.168.1.2";
+
         et_ip.setText(ip);
 
 
@@ -259,4 +278,5 @@ public class SelectIPActivity extends Activity implements View.OnClickListener {
 
         return int_imei_result;
     }
+
 }
