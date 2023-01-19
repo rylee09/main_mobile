@@ -1519,6 +1519,8 @@ public class NewMainActivity extends BaseActivity {
         //ZN - 20220125 consolidate peer readiness method call
         unregisterReceiver(newPeerReadinessMsgReceiver);
 
+        System.out.println("Cleared cache info");
+        CacheUtils.clearCacheInfo(getApplication());
         super.onDestroy();
     }
 

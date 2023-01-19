@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
@@ -61,7 +62,10 @@ import retrofit2.Response;
 public class SelectIPActivity extends Activity implements View.OnClickListener {
     private static String ip;
     private List<String> ipList;
-    private EditText et_ip;
+    private EditText et_ip, et_port;
+    private ToggleButton tgg_protocol;
+
+
     //    private ImageView iv_ip;
     private Button butt_confirmip;
     private MaterialSpinner ms_typefonts;
@@ -78,13 +82,17 @@ public class SelectIPActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_ip);
         et_ip = findViewById(R.id.et_ip);
+        et_port = findViewById(R.id.et_port);
+        tgg_protocol = findViewById(R.id.toggle_button);
         butt_confirmip = findViewById(R.id.butt_confirmip);
         ms_typefonts = findViewById(R.id.ms_typefonts);
         initListner();
         initData();
 
-        sw1 = findViewById(R.id.httpsSwitch);
-        sw2 = findViewById(R.id.httpsSwitch);
+
+        // ruii ying
+//        sw1 = findViewById(R.id.httpsSwitch);
+//        sw2 = findViewById(R.id.httpsSwitch);
 
 //        //ZN - 20220208 check for valid IMEI - permission to read imei
 //        if (Build.VERSION.SDK_INT >= 26) {
@@ -93,14 +101,15 @@ public class SelectIPActivity extends Activity implements View.OnClickListener {
 
     }
 
-    public void onSwitchClick(View view){
-        if(sw1.isChecked()){
-            Toast.makeText(getApplicationContext(), "on", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(getApplicationContext(), "off", Toast.LENGTH_SHORT).show();
-
-        }
-    }
+    // ruii ying
+//    public void onSwitchClick(View view){
+//        if(sw1.isChecked()){
+//            Toast.makeText(getApplicationContext(), "on", Toast.LENGTH_SHORT).show();
+//        }else{
+//            Toast.makeText(getApplicationContext(), "off", Toast.LENGTH_SHORT).show();
+//
+//        }
+//    }
 
     private void initListner() {
         butt_confirmip.setOnClickListener(this);
@@ -109,13 +118,56 @@ public class SelectIPActivity extends Activity implements View.OnClickListener {
 
     public void initData() {
 
+        // set protocol value
+        tgg_protocol.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    CacheUtils.saveProtocol(SelectIPActivity.this, "http");
+
+                } else {
+                    CacheUtils.saveProtocol(SelectIPActivity.this, "https");
+                }
+            }
+        });
+
+
+//        //ZN - 20220710 put in default string
+//        if (ip == null || ip.equalsIgnoreCase( ""));
+////        ip = "192.168.1.2";
+//
+//
+//
+//        ip = "172.20.10.4";
+
+
+        // get initial ip address
         String ip = CacheUtils.getIP(getApplication());
-
-        //ZN - 20220710 put in default string
-        if (ip == null || ip.equalsIgnoreCase( ""));
-        ip = "192.168.1.2";
-
         et_ip.setText(ip);
+
+        // set users ip input if not the default
+        if (ip != "172.20.10.4") {
+            ip = et_ip.getText().toString();
+            CacheUtils.saveIp(SelectIPActivity.this, ip);
+
+            et_ip.setText(ip);
+        }
+
+
+//        et_ip.setText(ip);
+
+
+        // get initial port
+        String port = CacheUtils.getPort(getApplication());
+        et_port.setText(port);
+
+        // set users port input if not the default
+        if (port != "3333") {
+            port = et_port.getText().toString().trim();
+            CacheUtils.savePort(SelectIPActivity.this, port);
+            et_port.setText(port);
+        }
+
 
 
         List<String> typeFonts = new ArrayList<>();
@@ -142,6 +194,17 @@ public class SelectIPActivity extends Activity implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.butt_confirmip:
                 String ip = et_ip.getText().toString().trim();
+                String port = et_port.getText().toString().trim();
+                boolean protocol = tgg_protocol.isChecked();
+                System.out.println( "checked is :" + protocol);
+                if(protocol) {
+                    CacheUtils.saveProtocol(getApplication(), "http");
+                    tgg_protocol.setTextOn("HTTP");
+                } else {
+                    CacheUtils.saveProtocol(getApplication(), "https");
+                    tgg_protocol.setTextOff("HTTPS");
+                }
+
                 boolean b = checkIP(ip);
                 if (b) {
 
@@ -177,6 +240,8 @@ public class SelectIPActivity extends Activity implements View.OnClickListener {
 //                    }
 
                     CacheUtils.saveIp(getApplication(), ip);
+                    CacheUtils.savePort(getApplication(), port);
+
                     CacheUtils.saveTypeFonts(SelectIPActivity.this, typeFont);
 
                     String s_typeFont = "fonts/" + typeFont + ".ttf";

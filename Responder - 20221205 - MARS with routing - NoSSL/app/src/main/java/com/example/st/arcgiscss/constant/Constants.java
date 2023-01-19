@@ -15,9 +15,14 @@ public class Constants {
 
 	//Lightweight cache data
 	public static String CACHE_INFO = "cache";
-	public static String CACHE_IP = "mqttip";
+
 	public static String CACHE_V_Number = "VehicleNo";
 	public static String CACHE_APPOINT = "Appointment";
+
+
+	public static String CACHE_PROTOCOL = "http";
+	public static String CACHE_IP = "172.20.10.4";
+	public static String CACHE_PORT = "3333";
 
 	public static String CACHE_USER = "CACHENEWUSER";
 
@@ -65,6 +70,13 @@ public class Constants {
 		return CacheUtils.getIP(MyApplication.getInstance().getApplicationContext()) ;
 	}
 
+	public static String getPort(){
+		return CacheUtils.getPort(MyApplication.getInstance().getApplicationContext()) ;
+	}
+
+	public static String getProtocol(){
+		return CacheUtils.getProtocol(MyApplication.getInstance().getApplicationContext()) ;
+	}
 
 	/**Navigation broadcast service**/
 	public static final String KEY_INFO="com.st.ns.keyinfo";//Send key information broadcast

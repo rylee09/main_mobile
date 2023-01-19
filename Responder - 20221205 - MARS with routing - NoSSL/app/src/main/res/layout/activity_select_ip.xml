@@ -63,27 +63,42 @@
             <!--                android:textOff="OFF"-->
             <!--                android:textOn ="ON"-->
             <!--                            co/>-->
-            <RadioButton
-                android:scaleX="0.8"
-                android:scaleY="0.8"
-                android:id="@+id/httpsSwitch"
-                android:layout_width="105dp"
-                android:layout_height="37dp"
-                android:layout_centerHorizontal="true"
-                android:onClick="onSwitchClick"
-                android:text="https"
-                android:textSize="13dp"/>
 
-            <RadioButton
-                android:scaleX="0.8"
-                android:scaleY="0.8"
-                android:id="@+id/httpSwitch"
-                android:layout_width="104dp"
-                android:layout_height="35dp"
-                android:layout_centerHorizontal="true"
-                android:onClick="onSwitchClick"
-                android:text="http"
-                android:textSize="13dp"/>
+            <ToggleButton
+                android:id="@+id/toggle_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOn="HTTP"
+                android:textOff="HTTPS"
+                android:checked="true"
+                android:textColorHighlight="@color/province_line_border"
+                android:textSize="24sp"
+                android:padding="10dp"
+                android:layout_gravity="center"
+                android:background="@color/province_line_border"
+                />
+
+<!--            <RadioButton-->
+<!--                android:scaleX="0.8"-->
+<!--                android:scaleY="0.8"-->
+<!--                android:id="@+id/httpsSwitch"-->
+<!--                android:layout_width="105dp"-->
+<!--                android:layout_height="37dp"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:onClick="onSwitchClick"-->
+<!--                android:text="https"-->
+<!--                android:textSize="13dp"/>-->
+
+<!--            <RadioButton-->
+<!--                android:scaleX="0.8"-->
+<!--                android:scaleY="0.8"-->
+<!--                android:id="@+id/httpSwitch"-->
+<!--                android:layout_width="104dp"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:onClick="onSwitchClick"-->
+<!--                android:text="http"-->
+<!--                android:textSize="13dp"/>-->
 
             <TextView
                 android:layout_width="match_parent"
@@ -92,7 +107,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="15dp"
                 android:gravity="center|left"
-                android:text="Please set the IP"
+                android:text="Please set the protocol,IP,Port"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -146,6 +161,39 @@
 
                 <EditText
                     android:id="@+id/et_ip"
+                    android:layout_width="200dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/bg_border_edittext"
+                    android:gravity="center|left"
+                    android:paddingLeft="10dp"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/light_grey" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="103dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center|left"
+                    android:paddingLeft="15dp"
+                    android:text="PORT"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_port"
                     android:layout_width="200dp"
                     android:layout_height="35dp"
                     android:background="@drawable/bg_border_edittext"

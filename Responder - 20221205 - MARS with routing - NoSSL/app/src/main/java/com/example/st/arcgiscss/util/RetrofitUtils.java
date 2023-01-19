@@ -49,7 +49,14 @@ public class RetrofitUtils {
 
     //ZN - 20201209
     //for testing,  to comment off in deployment
-    private static String baseUrl = "http://"+ Constants.getIP()+":3333/";
+
+    private static String protocol = Constants.getProtocol();
+    private static String portD = Constants.getPort();
+    private static String ip = Constants.getIP();
+
+    private static String baseUrl;
+
+//    private static String baseUrl = "http://"+ Constants.getIP()+":3333/";
 
 
     public static Retrofit retrofit = null;
@@ -63,6 +70,8 @@ public class RetrofitUtils {
      * @return
      */
     public static IRetrofitServer getInstance() {
+        baseUrl =  protocol + "://" + ip + ":" + portD + "/";
+        System.out.println("baseurl is: " + baseUrl);
         if (retrofit == null) {
             synchronized (RetrofitUtils.class) {
                 if (retrofit == null) {

@@ -21,6 +21,46 @@ public class CacheUtils {
 
 
 
+    public static void savePort(Context context,
+                                    String port) {
+
+        ACache mCache = ACache.get(context, Constants.CACHE_INFO);
+        mCache.put(Constants.CACHE_PORT, port);
+
+    }
+
+
+
+
+
+    public static String getPort(Context context) {
+        ACache mCache = ACache.get(context, Constants.CACHE_INFO);
+        String port =  mCache
+                .getAsString(Constants.CACHE_PORT);
+
+        return port;
+    }
+
+
+
+    public static void saveProtocol(Context context,
+                              String protocol) {
+
+        ACache mCache = ACache.get(context, Constants.CACHE_INFO);
+        mCache.put(Constants.CACHE_PROTOCOL, protocol);
+
+    }
+
+
+    public static String getProtocol(Context context) {
+        ACache mCache = ACache.get(context, Constants.CACHE_INFO);
+        String protocol =  mCache
+                .getAsString(Constants.CACHE_PROTOCOL);
+
+        return protocol;
+    }
+
+
     public static void saveIp(Context context,
                                   String ip) {
 
@@ -28,9 +68,6 @@ public class CacheUtils {
         mCache.put(Constants.CACHE_IP, ip);
 
     }
-
-
-
 
 
     public static String getIP(Context context) {
