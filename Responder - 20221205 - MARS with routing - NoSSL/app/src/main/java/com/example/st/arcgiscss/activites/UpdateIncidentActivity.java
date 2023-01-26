@@ -1,32 +1,24 @@
 package com.example.st.arcgiscss.activites;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.st.arcgiscss.R;
-import com.example.st.arcgiscss.constant.MyApplication;
 import com.example.st.arcgiscss.d3View.D3View;
-import com.example.st.arcgiscss.model.IncidentLoc;
 import com.example.st.arcgiscss.model.LocationType;
 import com.example.st.arcgiscss.model.NewIncident;
 import com.example.st.arcgiscss.util.CacheUtils;
-import com.example.st.arcgiscss.util.CornerUtil;
 import com.example.st.arcgiscss.util.RetrofitUtils;
 import com.google.gson.Gson;
-import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.google.gson.JsonObject;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,7 +28,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,12 +37,10 @@ public class UpdateIncidentActivity extends BaseActivity {
     Button btn_close_update;
 
     @D3View
-    TextView tv_act_incidentview_incident_type, tv_act_incidentview_activation_time, tv_act_incidentview_location,
-            tv_act_incidentview_LUP, tv_act_incidentview_POCName, tv_act_incidentview_POCContact, tv_act_incidentview_casualtycondition,
-            tv_act_incidentview_noofcasualty, tv_act_incidentview_incidentdescription, tv_act_incidentview_camplocation;
+    TextView tv_act_incidentview_incident_type, tv_act_incidentview_activation_time, tv_act_incidentview_incidentdescription;
 
-    @D3View
-    MaterialSpinner sp_casualtycondition;
+//    @D3View
+//    MaterialSpinner sp_casualtycondition;
 
     @D3View
     EditText et_act_incidentview_responderremarks;
@@ -76,16 +65,17 @@ public class UpdateIncidentActivity extends BaseActivity {
     }
 
     private void initView() {
+
         if (incident.getActivationLocation()!=null){
-            tv_act_incidentview_location.setText(incident.getActivationLocation());
+//            tv_act_incidentview_location.setText(incident.getActivationLocation());
         }
 
-        if (incident.getIncidentLocation()!=null){
-            tv_act_incidentview_LUP.setText(incident.getIncidentLocation());
-        }
+//        if (incident.getIncidentLocation()!=null){
+////            tv_act_incidentview_LUP.setText(incident.getIncidentLocation());
+//        }
 
         if (incident.getCasualties()!=null){
-            tv_act_incidentview_noofcasualty.setText(incident.getCasualties());
+//            tv_act_incidentview_noofcasualty.setText(incident.getCasualties());
         }
 
         if (incident.getType()!=null){
@@ -93,30 +83,34 @@ public class UpdateIncidentActivity extends BaseActivity {
         }
 
         if (incident.getIncidentCondition()!=null){
-            tv_act_incidentview_casualtycondition.setText(incident.getIncidentCondition());
+//            tv_act_incidentview_casualtycondition.setText(incident.getIncidentCondition());
         }
 
         if (incident.getDescription()!=null){
             tv_act_incidentview_incidentdescription.setText(incident.getDescription());
         }
 
-        //ZN - 20210117
-        if (incident.getPOC_Name() != null) {
-            //ZN - 20210713 to show updated POC if have
-            if (MyApplication.getInstance().getPOC_Name().equalsIgnoreCase(""))
-                tv_act_incidentview_POCName.setText(incident.getPOC_Name());
-            else
-                tv_act_incidentview_POCName.setText(MyApplication.getInstance().getPOC_Name());
-
-            //tv_act_incidentview_POCName.setText(incident.getPOC_Name());
+        if(incident.getLatLon()!=null){
+//            tv_act_incidentview_camplocation.setText((incident.getLatLon()));
         }
+
+        //ZN - 20210117
+//        if (incident.getPOC_Name() != null) {
+//            ZN - 20210713 to show updated POC if have
+//            if (MyApplication.getInstance().getPOC_Name().equalsIgnoreCase(""))
+//                tv_act_incidentview_POCName.setText(incident.getPOC_Name());
+//            else
+//                tv_act_incidentview_POCName.setText(MyApplication.getInstance().getPOC_Name());
+
+//            tv_act_incidentview_POCName.setText(incident.getPOC_Name());
+//        }
 
         if (incident.getPOC_Contact() != null) {
             //ZN - 20210713 to show updated POC if have
-            if (MyApplication.getInstance().getPOC_Contact().equalsIgnoreCase(""))
-                tv_act_incidentview_POCContact.setText(incident.getPOC_Contact());
-            else
-                tv_act_incidentview_POCContact.setText(MyApplication.getInstance().getPOC_Contact());
+//            if (MyApplication.getInstance().getPOC_Contact().equalsIgnoreCase(""))
+//                tv_act_incidentview_POCContact.setText(incident.getPOC_Contact());
+//            else
+//                tv_act_incidentview_POCContact.setText(MyApplication.getInstance().getPOC_Contact());
 
             //tv_act_incidentview_POCContact.setText(incident.getPOC_Contact());
         }
@@ -128,34 +122,61 @@ public class UpdateIncidentActivity extends BaseActivity {
 
         //ZN - 20210118 fixed missing camp location field
         if (incident.getActual_incident_address() != null) {
-            tv_act_incidentview_camplocation.setText(incident.getActual_incident_address());
+//            tv_act_incidentview_camplocation.setText(incident.getActual_incident_address());
         }
 
         //ZN - 20210616 for casualty condition update
-        lst_casualty_condition.add("");
-        lst_casualty_condition.add("A - ALERT");
-        lst_casualty_condition.add("V - VERBAL RESPONSIVE");
-        lst_casualty_condition.add("P - RESPONSIVE TO PAIN");
-        lst_casualty_condition.add("U - UNRESPONSIVE");
-        sp_casualtycondition.setItems(lst_casualty_condition);
-        sp_casualtycondition.setPadding(40, 0, 0, 0);
-        sp_casualtycondition.setDropdownMaxHeight(550);
-        CornerUtil.clipViewCornerByDp(sp_casualtycondition,10);
+//        lst_casualty_condition.add("");
+//        lst_casualty_condition.add("A - ALERT");
+//        lst_casualty_condition.add("V - VERBAL RESPONSIVE");
+//        lst_casualty_condition.add("P - RESPONSIVE TO PAIN");
+//        lst_casualty_condition.add("U - UNRESPONSIVE");
+//        sp_casualtycondition.setItems(lst_casualty_condition);
+//        sp_casualtycondition.setPadding(40, 0, 0, 0);
+//        sp_casualtycondition.setDropdownMaxHeight(550);
+//        CornerUtil.clipViewCornerByDp(sp_casualtycondition,10);
 
-        sp_casualtycondition.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+//        sp_casualtycondition.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+//
+//                str_selectedcondtion = (String)item;
+//                if (!str_selectedcondtion.equalsIgnoreCase("")) {
+//                    isUpdate = true;
+//                    btn_close_update.setText("Update");
+//                } else {
+//                    isUpdate = false;
+//                    btn_close_update.setText("Close");
+//                }
+//            }
+//        });
+        et_act_incidentview_responderremarks.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                isUpdate = false;
+                btn_close_update.setText("Close");
 
-                str_selectedcondtion = (String)item;
-                if (!str_selectedcondtion.equalsIgnoreCase("")) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(et_act_incidentview_responderremarks.getText().toString().trim().length()>0){
                     isUpdate = true;
                     btn_close_update.setText("Update");
-                } else {
+
+                }else{
                     isUpdate = false;
                     btn_close_update.setText("Close");
                 }
+
             }
         });
+
     }
 
     public void onClick(View v){
@@ -176,28 +197,36 @@ public class UpdateIncidentActivity extends BaseActivity {
         Map<String,String> params = new HashMap<>();
         params.put("Incident_id", incident.getId());
         params.put("Responder_id",  CacheUtils.getUserId(this));
-        params.put("Casualty_Condition", str_selectedcondtion);
+//        params.put("Location", tv_act_incidentview_camplocation.getText().toString());
+        //params.put("currentTime", str_selectedcondtion);
+        //params.put("desc", tv_act_incidentview_incidentdescription.getText().toString());
+        params.put("Location", incident.getLatLon());
+        params.put("Casualty_Condition", "");
         params.put("Remarks", et_act_incidentview_responderremarks.getText().toString());
 
-        Log.i("TEST", "[UpdateIncidentActivity] msg: " + incident.getId() + " " + CacheUtils.getUserId(this) + " " + str_selectedcondtion + " " + et_act_incidentview_responderremarks.getText().toString());
 
-        Call<ResponseBody> call = RetrofitUtils.getInstance().updateResponderIncidentInfo(params);
-        call.enqueue(new Callback<ResponseBody>() {
+
+
+        //Log.i("TEST", "[UpdateIncidentActivity] msg: " + incident.getId() + " " + CacheUtils.getUserId(this) + " " + str_selectedcondtion + " " + tv_act_incidentview_incidentdescription.getText().toString()+ " " + tv_act_incidentview_camplocation.getText().toString() + " " + et_act_incidentview_responderremarks.getText().toString());
+
+        Call<JsonObject> call = RetrofitUtils.getInstance().updateResponderIncidentInfo(params);
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 showToast("Update Incident Success");
                 finish();
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.e("TEST",t.getMessage().toString());
                 showToast("Failure to update Incident ");
                 finish();
             }
         });
-
     }
+
+
 
 
     public static String date2TimeStamp(String date, String format) {

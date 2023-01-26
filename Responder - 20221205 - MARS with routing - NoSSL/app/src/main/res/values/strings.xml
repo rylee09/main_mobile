@@ -17,7 +17,7 @@
 
     <string name="register_location">Please select your Activation Location</string>
 
-    <string name="incident_type">Incident Type :</string>
+    <string name="incident_type">Incident Category</string>
 
     <string name="location_of_incident">Location of incident :</string>
     <string name="activation_location">Activation Location :</string>
@@ -26,7 +26,7 @@
     <string name="report_time">Report Time :</string>
     <string name="number_of_casualties">Number of casualties:</string>
     <string name="incident_description">Incident Description :</string>
-    <string name="condition_of_casualties">Casualty Condition:</string>
+    <string name="condition_of_casualties">Activation (Responder):</string>
 
     <string name="null_location">Unable to locate</string>
     <string name="sure">determine</string>

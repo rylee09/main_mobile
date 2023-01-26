@@ -267,6 +267,7 @@ public class CacheUtils {
         return user;
     }
 
+
     public static void saveUsername(Context context,
                                     String username) {
 
@@ -283,4 +284,20 @@ public class CacheUtils {
     }
 
 
+
+//    public static void saveProtocolValue(Context context,
+//                              String protocolValue) {
+//
+//        ACache mCache = ACache.get(context, Constants.CACHE_INFO);
+//        mCache.put(Constants.PROTOCOL_VALUE, protocolValue);
+//
+//    }
+//
+//    public static String getProtocolValue(Context context) {
+//        ACache mCache = ACache.get(context, Constants.CACHE_INFO);
+//        String protocolValue =  mCache
+//                .getAsString(Constants.PROTOCOL_VALUE);
+//
+//        return protocolValue;
+//    }
 }

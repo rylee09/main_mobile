@@ -3,12 +3,9 @@ package com.example.st.arcgiscss.util;
 import android.util.Log;
 
 import com.example.st.arcgiscss.constant.Constants;
-import com.example.st.arcgiscss.model.UserStatus;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 

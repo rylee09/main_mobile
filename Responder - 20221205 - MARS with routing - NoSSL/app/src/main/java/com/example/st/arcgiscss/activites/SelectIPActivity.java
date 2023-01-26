@@ -68,8 +68,11 @@ public class SelectIPActivity extends Activity implements View.OnClickListener {
 
     //    private ImageView iv_ip;
     private Button butt_confirmip;
-    private MaterialSpinner ms_typefonts;
+//    private MaterialSpinner ms_typefonts;
     private String selectMap, typeFont;
+
+
+
 
     //ZN - 20220208 check for valid IMEI
     private int int_imei_result;
@@ -84,8 +87,9 @@ public class SelectIPActivity extends Activity implements View.OnClickListener {
         et_ip = findViewById(R.id.et_ip);
         et_port = findViewById(R.id.et_port);
         tgg_protocol = findViewById(R.id.toggle_button);
+
         butt_confirmip = findViewById(R.id.butt_confirmip);
-        ms_typefonts = findViewById(R.id.ms_typefonts);
+//        ms_typefonts = findViewById(R.id.ms_typefonts);
         initListner();
         initData();
 
@@ -94,11 +98,11 @@ public class SelectIPActivity extends Activity implements View.OnClickListener {
 //        sw1 = findViewById(R.id.httpsSwitch);
 //        sw2 = findViewById(R.id.httpsSwitch);
 
+
 //        //ZN - 20220208 check for valid IMEI - permission to read imei
 //        if (Build.VERSION.SDK_INT >= 26) {
 //            showContacts();
 //        }
-
     }
 
     // ruii ying
@@ -143,10 +147,15 @@ public class SelectIPActivity extends Activity implements View.OnClickListener {
 
         // get initial ip address
         String ip = CacheUtils.getIP(getApplication());
+
+        //ZN - 20220710 put in default string
+        if (ip == null || ip.equalsIgnoreCase("")) ;
+        ip = "";
+
         et_ip.setText(ip);
 
         // set users ip input if not the default
-        if (ip != "172.20.10.4") {
+        if (ip != "") {
             ip = et_ip.getText().toString();
             CacheUtils.saveIp(SelectIPActivity.this, ip);
 
@@ -176,16 +185,15 @@ public class SelectIPActivity extends Activity implements View.OnClickListener {
         typeFont = "tw_cen_mt";
 
 
-        ms_typefonts.setPadding(10, 0, 10, 0);
-        ms_typefonts.setItems(typeFonts);
-        ms_typefonts.setDropdownMaxHeight(550);
-        ms_typefonts.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-                typeFont = typeFonts.get(position);
-            }
-        });
-
+//        ms_typefonts.setPadding(10, 0, 10, 0);
+//        ms_typefonts.setItems(typeFonts);
+//        ms_typefonts.setDropdownMaxHeight(550);
+//        ms_typefonts.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+//                typeFont = typeFonts.get(position);
+//            }
+//        });
     }
 
 

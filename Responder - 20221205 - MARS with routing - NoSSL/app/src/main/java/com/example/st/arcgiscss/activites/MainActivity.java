@@ -334,39 +334,47 @@ public class MainActivity<INCIDENT> extends BaseActivity{
         });
 
         //ZN - 20210620 function for phone call
-        iv_phone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel: +65" + application.getPOC_Contact()));
-                //callIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                    startActivity(callIntent);
-                } else {
-                    requestPermissions(new String[]{CALL_PHONE}, 1);
-                }
-
-            }
-        });
+//        iv_phone.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent callIntent = new Intent(Intent.ACTION_CALL);
+//                callIntent.setData(Uri.parse("tel: +65" + application.getPOC_Contact()));
+//                //callIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//                if (ContextCompat.checkSelfPermission(getApplicationContext(), CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+//                    startActivity(callIntent);
+//                } else {
+//                    requestPermissions(new String[]{CALL_PHONE}, 1);
+//                }
+//
+//            }
+//        });
 
         //ZN - 20210624 function to open incident details
         iv_incident.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NewIncident incident = NewIncidentDBHelper.getInstance(MainActivity.this).getLatestIncidentMsg();
-                if (incident != null) {
-                    Intent intent2 = new Intent(MainActivity.this, UpdateIncidentActivity.class);
-                    intent2.putExtra("incident", incident);
-                    startActivity(intent2);
-                }
-
+//                NewIncident incident = NewIncidentDBHelper.getInstance(MainActivity.this).getLatestIncidentMsg();
+//                if (incident != null) {
+//                    Intent intent2 = new Intent(MainActivity.this, UpdateIncidentActivity.class);
+//                    intent2.putExtra("incident", incident);
+//                    startActivity(intent2);
                 Intent switchApp = new Intent();
                 switchApp.setComponent(new ComponentName("com.heyletscode.chattutorial","com.heyletscode.chattutorial.ChatActivity"));
                 startActivity(switchApp);
-            }
+                }
+
+
+//            }
         });
 
         //updateIncident();
+
+//        chatAppSwitch.setOnClickListener(new View.OnClickListener(){
+//                            Intent switchApp = new Intent();
+//                switchApp.setComponent(new ComponentName("com.heyletscode.chattutorial","com.heyletscode.chattutorial.ChatActivity"));
+//                startActivity(switchApp);
+//
+//        })
 
         //ZN - 20201218
         if(isIncidentReceived) {
@@ -1869,7 +1877,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 //        iv_phone.setVisibility(View.VISIBLE);
 
         //ZN - 20210624
-        iv_incident.setVisibility(View.VISIBLE);
+        iv_incident.setVisibility(View.INVISIBLE);
 
     }
 
@@ -2097,7 +2105,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
             Log.i("INCIDENT", "[receiveIncident] MainActivity receive incident: " + incident.getId());
 
             NewIncidentDBHelper.getInstance(getApplicationContext()).saveNewIncidentMsg(incident);
-            n_incident_location = "Location: " + incident.getIncidentLocation();
+            n_incident_location = "Location: " + incident.getLatLon();
             n_incident_type = "Type: " + incident.getType();
             n_incident_LUP = "Collection Point: " + incident.getActivationLocation();
 
@@ -2146,7 +2154,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 
         iv_phone.setVisibility(View.INVISIBLE);
 
-        iv_incident.setVisibility(View.INVISIBLE);
+//        iv_incident.setVisibility(View.INVISIBLE);
 
         application.setCheckUpdatePOC(false);
 
@@ -2357,7 +2365,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
                 iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.ccp_in_clear));
 
                 //ZN - 20210116
-                tv_statusText.setText("Arrive LUP");
+                tv_statusText.setText("Arrive Scene");
 
                 //ZN - 20210123
                 //remove callout
@@ -2392,7 +2400,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
                 //tv_statusText.setText("Left Link Up Point");
 
                 //ZN - 20220703 changed Left LUP to Select Evac Point
-                tv_statusText.setText("Return to Base");
+                tv_statusText.setText("Left Scene");
                 str_nextIncidentStatus = INCIDENT_COMPLETE;
 
                 //ZN - 20120214

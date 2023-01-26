@@ -87,8 +87,8 @@ public class WatchIncidentActivity extends BaseActivity {
         if (incident.getActivationLocation()!=null){
             tv_act_location.setText(incident.getActivationLocation());
         }
-        if (incident.getIncidentLocation()!=null){
-            tv_location.setText(incident.getIncidentLocation());
+        if (incident.getLatLon()!=null){
+            tv_location.setText(incident.getLatLon());
         }
         if (incident.getCasualties()!=null){
             tv_casualties.setText(incident.getCasualties());

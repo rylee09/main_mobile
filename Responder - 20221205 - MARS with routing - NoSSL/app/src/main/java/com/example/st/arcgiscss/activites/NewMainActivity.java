@@ -711,7 +711,7 @@ public class NewMainActivity extends BaseActivity {
 
     //ZN - 20210819 for incident activation notification
     private void createActivationNotificationAndIntent() {
-        n_incident_location = "Location: " + incident.getIncidentLocation();
+        n_incident_location = "Location: " + incident.getLatLon();
         n_incident_type = "Type: " + incident.getType();
         n_incident_LUP = "Collection Point: " + incident.getActivationLocation();
 

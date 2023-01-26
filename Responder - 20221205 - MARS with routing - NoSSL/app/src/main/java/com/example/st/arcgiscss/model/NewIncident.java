@@ -111,6 +111,9 @@ public class NewIncident implements Serializable {
     public String getId() {
         return this.id;
     }
+    public String getLocation(){
+        return this.incidentLocation;
+    }
 
     public void setId(String id) {
         this.id = id;
@@ -156,7 +159,11 @@ public class NewIncident implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public String getIncidentLocation() {
+//    public String getIncidentLocation() {
+//        return this.incidentLocation;
+//    }
+
+    public String getLatLon() {
         return this.incidentLocation;
     }
 
