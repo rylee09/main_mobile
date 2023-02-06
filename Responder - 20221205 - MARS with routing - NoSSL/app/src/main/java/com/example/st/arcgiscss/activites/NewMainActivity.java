@@ -219,7 +219,14 @@ public class NewMainActivity extends BaseActivity {
         setContentView(R.layout.acti_newhome);
 
         String username = CacheUtils.getUsername(getApplication());
+        String ip = CacheUtils.getIP(getApplication());
+        String port = CacheUtils.getPort(getApplication());
+        String http = CacheUtils.getProtocol(getApplication());
+
         System.out.println("Current Username is: " + username);
+        System.out.println("Current Ip is: " + ip);
+        System.out.println("Current Port is: " + port);
+        System.out.println("Current Protocol is: " + http);
 
         String packageName = "com.heyletscode.chattutorial";
 
@@ -229,6 +236,9 @@ public class NewMainActivity extends BaseActivity {
                     Intent intent = manager.getLaunchIntentForPackage(packageName);
 //                    intent.setClassName(packageName,"com.heyletscode.chattutorial.ChatActivity");
                     intent.putExtra("username", username);
+                    intent.putExtra("ip", ip);
+                    intent.putExtra("port", port);
+                    intent.putExtra("protocol", http);
                     intent.addCategory(Intent.CATEGORY_LAUNCHER);
                     startActivity(intent);                });
 
