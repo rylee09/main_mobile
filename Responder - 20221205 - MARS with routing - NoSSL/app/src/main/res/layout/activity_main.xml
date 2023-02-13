@@ -164,7 +164,7 @@
                 android:layout_marginBottom="15dp"
                 android:text="Arrive LUP"
                 android:textColor="@color/white"
-                android:visibility="invisible" />
+                />
 
         </LinearLayout>
 

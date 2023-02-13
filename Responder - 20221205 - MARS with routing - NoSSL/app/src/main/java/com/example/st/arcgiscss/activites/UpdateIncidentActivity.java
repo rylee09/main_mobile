@@ -37,7 +37,7 @@ public class UpdateIncidentActivity extends BaseActivity {
     Button btn_close_update;
 
     @D3View
-    TextView tv_act_incidentview_incident_type, tv_act_incidentview_activation_time, tv_act_incidentview_incidentdescription;
+    TextView tv_act_incidentview_incident_type, tv_act_incidentview_activation_time, tv_act_incidentview_incidentdescription, tv_act_incidentview_incident_id;
 
 //    @D3View
 //    MaterialSpinner sp_casualtycondition;
@@ -118,6 +118,11 @@ public class UpdateIncidentActivity extends BaseActivity {
         //ZN - 20210615 for activation timing
         if (incident.getTimestamp() != null) {
             tv_act_incidentview_activation_time.setText(incident.getTimestamp());
+        }
+
+        //RY - 20230207 to retrieve incident id
+        if (incident.getIncidentID() != null) {
+            tv_act_incidentview_incident_id.setText(incident.getIncidentID());
         }
 
         //ZN - 20210118 fixed missing camp location field

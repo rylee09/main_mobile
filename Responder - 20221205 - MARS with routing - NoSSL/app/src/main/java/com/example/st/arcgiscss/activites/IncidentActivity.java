@@ -62,7 +62,7 @@ public class IncidentActivity extends BaseActivity {
     @D3View
     MaterialSpinner sp_incident_type, sp_location, sp_location_name, sp_condition;
     @D3View
-    TextView tv_act_location, tv_dtg;
+    TextView tv_act_location, tv_dtg, tv_location;
 
     public Gson gson;
 

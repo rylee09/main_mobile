@@ -534,7 +534,7 @@ public class GetNewInfoService extends Service {
                     }
 
                     resp_msg = jsonObject.getString("resp_msg");
-                    if (resp_msg.equalsIgnoreCase("CANCELLED"))
+                    if (resp_msg.equalsIgnoreCase("CANCELLED")||resp_msg.equalsIgnoreCase("NEW"))
                         intent.putExtra("cancelled_incident", resp_msg);
 
                 } catch(JSONException e){ e.printStackTrace(); }

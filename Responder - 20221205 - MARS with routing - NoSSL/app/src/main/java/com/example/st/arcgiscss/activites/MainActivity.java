@@ -213,6 +213,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
     private static final String INCIDENT_LEFT_LUP_TIME = "left_LUP_time";
     private static final String INCIDENT_ARRIVE_EVACPT_TIME = "arrive_EvacPt_time";
     private static final String INCIDENT_LEFT_EVACPT_TIME = "left_EvacPt_time";
+    private static final String INCIDENT_RETURN_BASE_TIME = "return_base_time";
     private static final String INCIDENT_COMPLETE = "complete";
     private String str_nextIncidentStatus = "";
 
@@ -2401,22 +2402,12 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 
                 //ZN - 20220703 changed Left LUP to Select Evac Point
                 tv_statusText.setText("Left Scene");
+                str_nextIncidentStatus = INCIDENT_RETURN_BASE_TIME;
                 str_nextIncidentStatus = INCIDENT_COMPLETE;
 
-                //ZN - 20120214
-//                naviLayout.setVisibility(LinearLayout.INVISIBLE);
-
-                //ZN - 20210221 remove base-to-LUP route from map
-                //ZN - 20220720 restore activation - check to prevent remove of null route
-                if (isNavigationStarted) {
-                    removeRoute();
-                    stopNavigation();
-                }
-
-                //ZN - 20220619 logging to external file
-                Log.i("ON_CLICK", "button pressed end: " + INCIDENT_ARRIVE_LUP_TIME);
-
                 break;
+
+
             case INCIDENT_SELECT_EVAC_POINT:
                 //ZN - 20210426 show select evac activity
                 Log.i("ON_CLICK", "button pressed start: " + INCIDENT_SELECT_EVAC_POINT);
@@ -2538,8 +2529,36 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 
                 //ZN - 20220619 logging to external file
                 Log.i("ON_CLICK", "button pressed end: " + INCIDENT_COMPLETE);
+                str_nextIncidentStatus=INCIDENT_RETURN_BASE_TIME;
 
                 break;
+//            case INCIDENT_RETURN_BASE_TIME:
+//                Log.i("ON_CLICK","button pressed: " + INCIDENT_RETURN_BASE_TIME);
+//                p_incident.setCurrentStatus(INCIDENT_RETURN_BASE_TIME);
+//                p_incident.setDestinationPointLat("");
+//                p_incident.setDestinationPointLon("");
+//                LogcatHelper.addActivationLog(p_incident.toString(), false);
+//
+//                setIncidentStatus(INCIDENT_RETURN_BASE_TIME);
+//                iv.setImageResource(0);
+//                iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.base_in_clear));
+//
+//                tv_statusText.setText("Return to Base");
+
+                //ZN - 20120214
+//                naviLayout.setVisibility(LinearLayout.INVISIBLE);
+
+                //ZN - 20210221 remove base-to-LUP route from map
+                //ZN - 20220720 restore activation - check to prevent remove of null route
+//                if (isNavigationStarted) {
+//                    removeRoute();
+//                    stopNavigation();
+//                }
+//
+//                //ZN - 20220619 logging to external file
+//                Log.i("ON_CLICK", "button pressed end: " + INCIDENT_ARRIVE_LUP_TIME);
+//
+//                break;
         }
     }
 

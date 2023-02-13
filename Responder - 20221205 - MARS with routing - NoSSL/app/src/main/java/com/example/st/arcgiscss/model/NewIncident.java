@@ -155,6 +155,10 @@ public class NewIncident implements Serializable {
         return this.timestamp;
     }
 
+    public String getIncidentID(){
+        return this.id;
+    }
+
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
