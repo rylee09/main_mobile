@@ -125,6 +125,7 @@
             android:layout_width="137dp"
             android:layout_height="36dp"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tv_callsign"
                 android:layout_width="match_parent"

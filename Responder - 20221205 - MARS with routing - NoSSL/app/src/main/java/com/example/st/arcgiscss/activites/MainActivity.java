@@ -214,8 +214,11 @@ public class MainActivity<INCIDENT> extends BaseActivity{
     private static final String INCIDENT_ARRIVE_EVACPT_TIME = "arrive_EvacPt_time";
     private static final String INCIDENT_LEFT_EVACPT_TIME = "left_EvacPt_time";
     private static final String INCIDENT_COMPLETE = "complete";
+    private static final String BACK_AT_BASE = "at_base";
+    private static final String READY = "ready";
+    private static final String INCIDENTCANCELLED="incidentcancelled";
     private String str_nextIncidentStatus = "";
-
+    private String completedID = "";
     //ZN - 20220703 changed Left LUP to Select Evac Point
     private static final String INCIDENT_SELECT_EVAC_POINT = "select_evac_point";
 
@@ -549,6 +552,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
             if (intent.getAction().equals("NewCancelledIncidentReceiver")) {
 
                 if (intent.getExtras() != null) {
+                    System.out.println(intent.getExtras());
                     Log.i("INCIDENT", "[NewCancelledIncidentReceiver] incident cancelled");
 
                     cancelIncident();
@@ -601,6 +605,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 
             Graphic redwgp = new Graphic(redwarnP, redwarnpms);
             redwgp.getAttributes().put("incidentNo", incident.getId());
+            completedID=incident.getId();
             incidentGraphics.add(redwgp);
 
             //ZN - 20200602
@@ -1329,6 +1334,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
         String userId = CacheUtils.getUserId(getApplicationContext());
         List<NewIncident> incidentList = NewIncidentDBHelper.getInstance(getApplicationContext()).getIncidentMsg();
         String incidentId = incidentList.get(0).getId();
+        //completedID=incidentId;
         Map<String,String> params = new HashMap<>();
         params.put("userId",userId);
         params.put("incidentId",incidentId);
@@ -1367,7 +1373,52 @@ public class MainActivity<INCIDENT> extends BaseActivity{
         //therefore need to reset flag once incident is complete regardless have reception
         isIncidentReceived = false;
     }
+    private void setResponderBackBase() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+        String now = sdf.format(new Date());
+        String userId = CacheUtils.getUserId(getApplicationContext());
+       // List<NewIncident> incidentList = NewIncidentDBHelper.getInstance(getApplicationContext()).getIncidentMsg();
+       // String incidentId = incidentList.get(0).getId();
+        System.out.println("the id is here"+completedID);
+        Map<String,String> params = new HashMap<>();
+        params.put("userId",userId);
+        params.put("incidentId",completedID);
+        params.put("back_at_base", now);
 
+        //ZN - 20220606 store and forward
+        //application.getActivationTimingsMap().put("completed", now);
+
+        Call<JsonObject> call = RetrofitUtils.getInstance().setresponderAtbase(params);
+        call.enqueue(new Callback<JsonObject>() {
+
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                //remove drawn route , CCP and incident
+//                removeRoute();
+//                mRouteOverlay.getGraphics().remove(CCP_pt_grap);
+                mGraphicsOverlay.getGraphics().removeAll(incidentGraphics);
+                //isIncidentReceived = false;
+                Toast.makeText(MainActivity.this, "Incident Closed", Toast.LENGTH_LONG).show();
+                //ZN - 20200620 delete incident from mobile db
+                NewIncidentDBHelper.getInstance(getApplicationContext()).clear();
+
+                //ZN - 20220619 logging to external file
+                Log.i("INCIDENT", "incident completed and server responded");
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                //ZN - 20220619 logging to external file
+                Log.i("INCIDENT", "incident completed and server failed to respond");
+            }
+        });
+
+        //ZN - 20220608 possible bug fix to no route on map when rcv incident
+        //Responder click 'Arrive Base' when no reception, thus unable to reset "isIncidentReceived" flag
+        //therefore need to reset flag once incident is complete regardless have reception
+        isIncidentReceived = false;
+    }
     //ZN - 20201204
     private void setIncidentStatus(String status) {
         Log.i("Test", "Incident Status: " + status);
@@ -2140,22 +2191,42 @@ public class MainActivity<INCIDENT> extends BaseActivity{
     }
 
     //ZN - 20211201 cancel task assignment
-    public void setStandbyMode() {
-        iv.setVisibility(View.INVISIBLE);
+    public void     setStandbyMode() {
+        if((str_nextIncidentStatus==BACK_AT_BASE)||(str_nextIncidentStatus==INCIDENTCANCELLED)){
+            //iv = (ImageView) findViewById(R.id.iv_leftEvacPt);
 
-        str_nextIncidentStatus = INCIDENT_LEFT_BASE_TIME;
+            iv.setImageResource(0);
+            //iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.base_enter));
+            iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.base_in_clear));
 
-        tv_statusText.setVisibility(View.INVISIBLE);
+            //ZN - 20210116
+            tv_statusText.setText("BACK AT BASE");
+            iv.setVisibility(View.VISIBLE);
+            tv_statusText.setVisibility(View.VISIBLE);
 
-        mainLayout.setVisibility(LinearLayout.INVISIBLE);
+            mainLayout.setVisibility(LinearLayout.VISIBLE);
 
-        LinearLayout iv_bg = (LinearLayout) findViewById(R.id.iv_bg);
-        iv_bg.setVisibility(LinearLayout.INVISIBLE);
+            LinearLayout iv_bg = (LinearLayout) findViewById(R.id.iv_bg);
+            iv_bg.setVisibility(LinearLayout.VISIBLE);
 
-        iv_phone.setVisibility(View.INVISIBLE);
+            iv_phone.setVisibility(View.VISIBLE);
+        }else{
+            iv.setVisibility(View.INVISIBLE);
+            str_nextIncidentStatus = INCIDENT_LEFT_BASE_TIME;
+
+            tv_statusText.setVisibility(View.INVISIBLE);
+
+            mainLayout.setVisibility(LinearLayout.INVISIBLE);
+
+            LinearLayout iv_bg = (LinearLayout) findViewById(R.id.iv_bg);
+            iv_bg.setVisibility(LinearLayout.INVISIBLE);
+
+            iv_phone.setVisibility(View.INVISIBLE);
 
 //        iv_incident.setVisibility(View.INVISIBLE);
 
+
+        }
         application.setCheckUpdatePOC(false);
 
         application.setCurrentIncidentID(null);
@@ -2167,6 +2238,8 @@ public class MainActivity<INCIDENT> extends BaseActivity{
         Log.i("BROADCAST", "[MainActivity] unregister receiver: NewPOCUpdateReceiver / NewCancelledIncidentReceiver");
         unregisterReceiver(newCancelledIncidentReceiver);
         unregisterReceiver(newPOCUpdateReceiver);
+
+
     }
 
     //ZN - 20211201 cancel task assignment
@@ -2183,6 +2256,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
         Toast.makeText(MainActivity.this, "Incident cancelled", Toast.LENGTH_LONG).show();
 
         NewIncidentDBHelper.getInstance(getApplicationContext()).clear();
+        str_nextIncidentStatus=INCIDENTCANCELLED;
     }
 
     //ZN - 20210113 generate fixed route in event no route solve
@@ -2527,9 +2601,10 @@ public class MainActivity<INCIDENT> extends BaseActivity{
             case INCIDENT_COMPLETE:
                 //ZN - 20220619 logging to external file
                 Log.i("ON_CLICK", "button pressed start: " + INCIDENT_COMPLETE);
+                System.out.println("does it go to here??");
 
                 setIncidentComplete();
-
+                str_nextIncidentStatus=BACK_AT_BASE;
                 //ZN - 20211201 cancel task assignment - create common setStandbyMode method
                 setStandbyMode();
 
@@ -2539,6 +2614,57 @@ public class MainActivity<INCIDENT> extends BaseActivity{
                 //ZN - 20220619 logging to external file
                 Log.i("ON_CLICK", "button pressed end: " + INCIDENT_COMPLETE);
 
+               // setIncidentStage();
+                break;
+            case BACK_AT_BASE:
+                //ZN - 20220619 logging to external file
+                Log.i("ON_CLICK", "button pressed start: " + BACK_AT_BASE);
+               // p_incident.setCurrentStatus(BACK_AT_BASE);
+               //setIncidentComplete();
+                System.out.println("hello world");
+                //ZN - 20211201 cancel task assignment - create common setStandbyMode method
+              //  setStandbyMode();
+
+                //ZN - 20220720 restore activation
+                LogcatHelper.clearActivationLog();
+                setResponderBackBase();
+                //ZN - 20220619 logging to external file
+                Log.i("ON_CLICK", "button pressed end: " + BACK_AT_BASE);
+                str_nextIncidentStatus=READY;
+                iv.setVisibility(View.INVISIBLE);
+                tv_statusText.setVisibility(View.INVISIBLE);
+
+                mainLayout.setVisibility(LinearLayout.INVISIBLE);
+
+                LinearLayout iv_bg = (LinearLayout) findViewById(R.id.iv_bg);
+                iv_bg.setVisibility(LinearLayout.INVISIBLE);
+
+                iv_phone.setVisibility(View.INVISIBLE);
+                break;
+            case INCIDENTCANCELLED:
+                //ZN - 20220619 logging to external file
+                Log.i("ON_CLICK", "button pressed start: " + INCIDENTCANCELLED);
+                // p_incident.setCurrentStatus(BACK_AT_BASE);
+                //setIncidentComplete();
+                System.out.println("hello world");
+                //ZN - 20211201 cancel task assignment - create common setStandbyMode method
+                //  setStandbyMode();
+
+                //ZN - 20220720 restore activation
+                LogcatHelper.clearActivationLog();
+                setResponderBackBase();
+                //ZN - 20220619 logging to external file
+                Log.i("ON_CLICK", "button pressed end: " + INCIDENTCANCELLED);
+                str_nextIncidentStatus=READY;
+                iv.setVisibility(View.INVISIBLE);
+                tv_statusText.setVisibility(View.INVISIBLE);
+
+                mainLayout.setVisibility(LinearLayout.INVISIBLE);
+
+                LinearLayout ivbg = (LinearLayout) findViewById(R.id.iv_bg);
+                ivbg.setVisibility(LinearLayout.INVISIBLE);
+
+                iv_phone.setVisibility(View.INVISIBLE);
                 break;
         }
     }
