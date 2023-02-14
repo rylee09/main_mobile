@@ -196,6 +196,12 @@ public class RetrofitUtils {
         //ZN - 20220930 for Export create Incident
         String CREATEEXPORTINCIDENT = "createExportIncident";
 
+        //Glenn - 20230214 for getting userlist
+        String GETUSERLIST = "getUsers";
+
+        @GET(GETUSERLIST)
+        Call<JsonObject> getUserList();
+
         @GET(GETINCIDENTLOCATIONLIST)
         Call<JsonObject> getIncidentLocationList();
 

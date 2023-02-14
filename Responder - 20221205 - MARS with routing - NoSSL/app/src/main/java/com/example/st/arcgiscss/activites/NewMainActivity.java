@@ -223,10 +223,25 @@ public class NewMainActivity extends BaseActivity {
         String port = CacheUtils.getPort(getApplication());
         String http = CacheUtils.getProtocol(getApplication());
 
+        String friendList = CacheUtils.getFriendList(getApplication());
+
+//        List<JSONObject> jsonList = new ArrayList<>();
+//        try {
+//            JSONArray jsonArray = new JSONArray(jsonString);
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//                jsonList.add(jsonArray.getJSONObject(i));
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+
         System.out.println("Current Username is: " + username);
         System.out.println("Current Ip is: " + ip);
         System.out.println("Current Port is: " + port);
         System.out.println("Current Protocol is: " + http);
+        System.out.println("Current friendlist is: " + friendList);
+
+
 
         String packageName = "com.heyletscode.chattutorial";
 
@@ -239,6 +254,7 @@ public class NewMainActivity extends BaseActivity {
                     intent.putExtra("ip", ip);
                     intent.putExtra("port", port);
                     intent.putExtra("protocol", http);
+                    intent.putExtra("friendList", friendList);
                     intent.addCategory(Intent.CATEGORY_LAUNCHER);
                     startActivity(intent);                });
 

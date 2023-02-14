@@ -3,6 +3,10 @@ package com.example.st.arcgiscss.constant;
 
 import com.example.st.arcgiscss.util.CacheUtils;
 
+import org.json.JSONObject;
+
+import java.util.List;
+
 public class Constants {
 
 	public final static boolean IS_DEBUG = true;
@@ -24,6 +28,7 @@ public class Constants {
 	public static String CACHE_IP = "172.20.10.4";
 	public static String CACHE_PORT = "3333";
 
+	public static String CACHE_FRIENDLIST = "";
 	public static String CACHE_USER = "CACHENEWUSER";
 
 	public static String  USERID = "";

@@ -7,6 +7,10 @@ import com.example.st.arcgiscss.constant.Constants;
 import com.example.st.arcgiscss.model.NewUser;
 import com.example.st.arcgiscss.model.User;
 
+import org.json.JSONObject;
+
+import java.util.List;
+
 
 public class CacheUtils {
     private static final String TAG = "CacheUtils";
@@ -19,7 +23,21 @@ public class CacheUtils {
         Log.d(TAG, "clear all info success!");
     }
 
+    public static void saveFriendList(Context context,
+                                String friendList) {
 
+        ACache mCache = ACache.get(context, Constants.CACHE_INFO);
+        mCache.put(Constants.CACHE_FRIENDLIST, friendList);
+
+    }
+
+    public static String getFriendList(Context context) {
+        ACache mCache = ACache.get(context, Constants.CACHE_INFO);
+        String friendList =  mCache
+                .getAsString(Constants.CACHE_FRIENDLIST);
+
+        return friendList;
+    }
 
     public static void savePort(Context context,
                                     String port) {

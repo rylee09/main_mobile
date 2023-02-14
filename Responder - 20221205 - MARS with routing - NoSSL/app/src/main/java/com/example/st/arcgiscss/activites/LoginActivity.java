@@ -3,6 +3,7 @@ package com.example.st.arcgiscss.activites;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
@@ -69,9 +70,11 @@ import com.example.st.arcgiscss.util.RetrofitUtils;
 import com.example.st.arcgiscss.util.ToastUtil;
 import com.example.st.arcgiscss.util.Tool;
 import com.example.st.arcgiscss.util.TransInformation;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -129,6 +132,8 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
 
     //ZN - 20220619 logging to external file
     private boolean isPermissionGivenOnAppInstalled = false;
+
+    private List<JSONObject> jsonArrayItemsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -285,6 +290,67 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
         }
     }
 
+    void getUserList() {
+
+        Call<JsonObject> call = RetrofitUtils.getInstance().getUserList();
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//                JSONObject jsonObject = null;
+                Log.i("FRIENDLIST", "[LoginActivity] msg: " + response.body().get("resp_msg"));
+                String body = String.valueOf(response.body().get("resp_msg"));
+
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = new JSONArray(body);
+                     jsonArrayItemsList = new ArrayList<>();
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        Log.i("FRIENDLIST3", "[LoginActivity] msg: " + jsonArray.getJSONObject(i));
+                        System.out.println("CURRENT USERID" + CacheUtils.getUserId(getApplicationContext()));
+
+                        JSONObject item = jsonArray.getJSONObject(i);
+                        JSONObject filteredItem = new JSONObject();
+
+                        int userId = Integer.parseInt(CacheUtils.getUserId(getApplicationContext()));
+                        int friendId = item.getInt("id");
+                        String roomId;
+
+                        if (userId > friendId) {
+                            roomId = friendId + "-" + userId;
+                        } else {
+                            roomId = userId + "-" + friendId;
+                        }
+
+                        System.out.println("room id: " + roomId);
+
+                        filteredItem.put("room_id", roomId);
+                        filteredItem.put("username", item.getString("username"));
+
+
+                        jsonArrayItemsList.add(filteredItem);
+                    }
+                    Log.i("FRIENDLIST2", "[LoginActivity] msg: " + jsonArrayItemsList);
+
+                    String saveFriends = jsonArrayItemsList.toString();
+                    CacheUtils.saveFriendList(LoginActivity.this,saveFriends);
+
+
+
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                ToastUtil.showToast(LoginActivity.this,"Not able to generate friend list");
+            }
+        });
+    }
+
+
     void doLogin(String username,String act_location,String pwd){
         Map<String,String> params = new HashMap<>();
         params.put("username",username);
@@ -338,6 +404,8 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
 
                     //ZN - 20220118 disable login button after click to prevent double NewMainActivity instance - enable back regardless of result to allow button click the next time
                     login.setEnabled(true);
+
+                    getUserList();
 
                     Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
                     intent.putExtra("locations",locationType);
