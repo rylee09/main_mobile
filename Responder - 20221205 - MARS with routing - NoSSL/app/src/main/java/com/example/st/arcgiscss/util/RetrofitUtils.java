@@ -152,7 +152,7 @@ public class RetrofitUtils {
 
         //ZN - 20210616
         String UPDATERESPONDERINCIDENTINFO = "updateResponderIncidentInfo";
-
+        String GETINCIDENTFACTS="getIncidentFacts";
         //ZN - 20210627
         String PROCESSSYSTEMREADY = "processSystemReady";
 
@@ -272,6 +272,9 @@ public class RetrofitUtils {
         @POST(UPDATERESPONDERINCIDENTINFO)
         Call<JsonObject> updateResponderIncidentInfo(@FieldMap Map<String, String> maps);
 
+        @FormUrlEncoded
+        @POST(GETINCIDENTFACTS)
+        Call<JsonObject> getIncidentFacts(@FieldMap Map<String, String> maps);
         //ZN - 20210627
         @FormUrlEncoded
         @POST(PROCESSSYSTEMREADY)

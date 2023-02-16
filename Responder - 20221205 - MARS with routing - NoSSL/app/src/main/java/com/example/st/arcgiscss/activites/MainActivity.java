@@ -35,6 +35,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -79,6 +80,7 @@ import com.esri.arcgisruntime.tasks.networkanalysis.Route;
 import com.esri.arcgisruntime.tasks.networkanalysis.RouteParameters;
 import com.esri.arcgisruntime.tasks.networkanalysis.RouteResult;
 import com.esri.arcgisruntime.tasks.networkanalysis.RouteTask;
+import com.esri.arcgisruntime.tasks.networkanalysis.SourceObjectPosition;
 import com.esri.arcgisruntime.tasks.networkanalysis.Stop;
 import com.example.st.arcgiscss.R;
 import com.example.st.arcgiscss.constant.Constants;
@@ -368,7 +370,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 //            }
         });
 
-        //updateIncident();
+        updateIncident();
 
 //        chatAppSwitch.setOnClickListener(new View.OnClickListener(){
 //                            Intent switchApp = new Intent();
@@ -1576,7 +1578,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
         return stops;
     }
 
-    private void startNavigation(RouteTask routeTask, RouteParameters routeParameters, RouteResult routeResult) {
+    private void startNavigation(RouteTask routeTask, RouteParameters routeParameters, @NonNull RouteResult routeResult) {
 
         mMapView.getGraphicsOverlays().get(0).getGraphics().clear();
         Polyline routeGeometry = routeResult.getRoutes().get(0).getRouteGeometry();
@@ -2407,7 +2409,34 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 
                 break;
 
-
+//            case INCIDENT_RETURN_BASE_TIME:
+//                Log.i("ON_CLICK","button pressed: " + INCIDENT_RETURN_BASE_TIME);
+//                p_incident.setCurrentStatus(INCIDENT_RETURN_BASE_TIME);
+//                p_incident.setDestinationPointLat("");
+//                p_incident.setDestinationPointLon("");
+//                LogcatHelper.addActivationLog(p_incident.toString(), false);
+//
+//                setIncidentStatus(INCIDENT_RETURN_BASE_TIME);
+//                iv.setImageResource(0);
+//                iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.base_in_clear));
+//
+//                tv_statusText.setText("Return to Base");
+//                str_nextIncidentStatus = INCIDENT_COMPLETE;
+//
+//                //ZN - 20120214
+////                naviLayout.setVisibility(LinearLayout.INVISIBLE);
+//
+//                //ZN - 20210221 remove base-to-LUP route from map
+//                //ZN - 20220720 restore activation - check to prevent remove of null route
+//                if (isNavigationStarted) {
+//                    removeRoute();
+//                    stopNavigation();
+//                }
+//
+//                //ZN - 20220619 logging to external file
+//                Log.i("ON_CLICK", "button pressed end: " + INCIDENT_ARRIVE_LUP_TIME);
+//
+//                break;
             case INCIDENT_SELECT_EVAC_POINT:
                 //ZN - 20210426 show select evac activity
                 Log.i("ON_CLICK", "button pressed start: " + INCIDENT_SELECT_EVAC_POINT);
@@ -2529,36 +2558,8 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 
                 //ZN - 20220619 logging to external file
                 Log.i("ON_CLICK", "button pressed end: " + INCIDENT_COMPLETE);
-                str_nextIncidentStatus=INCIDENT_RETURN_BASE_TIME;
 
                 break;
-//            case INCIDENT_RETURN_BASE_TIME:
-//                Log.i("ON_CLICK","button pressed: " + INCIDENT_RETURN_BASE_TIME);
-//                p_incident.setCurrentStatus(INCIDENT_RETURN_BASE_TIME);
-//                p_incident.setDestinationPointLat("");
-//                p_incident.setDestinationPointLon("");
-//                LogcatHelper.addActivationLog(p_incident.toString(), false);
-//
-//                setIncidentStatus(INCIDENT_RETURN_BASE_TIME);
-//                iv.setImageResource(0);
-//                iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.base_in_clear));
-//
-//                tv_statusText.setText("Return to Base");
-
-                //ZN - 20120214
-//                naviLayout.setVisibility(LinearLayout.INVISIBLE);
-
-                //ZN - 20210221 remove base-to-LUP route from map
-                //ZN - 20220720 restore activation - check to prevent remove of null route
-//                if (isNavigationStarted) {
-//                    removeRoute();
-//                    stopNavigation();
-//                }
-//
-//                //ZN - 20220619 logging to external file
-//                Log.i("ON_CLICK", "button pressed end: " + INCIDENT_ARRIVE_LUP_TIME);
-//
-//                break;
         }
     }
 

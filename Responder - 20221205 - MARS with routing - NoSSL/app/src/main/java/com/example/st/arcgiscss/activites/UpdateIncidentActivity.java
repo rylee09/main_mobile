@@ -19,6 +19,9 @@ import com.example.st.arcgiscss.util.RetrofitUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,6 +90,7 @@ public class UpdateIncidentActivity extends BaseActivity {
         }
 
         if (incident.getDescription()!=null){
+
             tv_act_incidentview_incidentdescription.setText(incident.getDescription());
         }
 
@@ -197,6 +201,46 @@ public class UpdateIncidentActivity extends BaseActivity {
                 break;
         }
     }
+    private void getIncidentFacts(){
+        Map<String,String> params = new HashMap<>();
+        params.put("incidentId", incident.getId());
+        params.put("description", incident.getDescription());
+        //Log.i("TEST", "[UpdateIncidentActivity] msg: " + incident.getId() + " " + CacheUtils.getUserId(this) + " " + str_selectedcondtion + " " + tv_act_incidentview_incidentdescription.getText().toString()+ " " + tv_act_incidentview_camplocation.getText().toString() + " " + et_act_incidentview_responderremarks.getText().toString());
+
+        Call<JsonObject> call = RetrofitUtils.getInstance().getIncidentFacts(params);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(response.body().toString());
+                        System.out.println("details" + jsonObject);
+                        if (jsonObject.getInt("resp_code") == -1) {
+                      //do nth
+                            System.out.println("NANI?");
+                        }else{
+                            System.out.println("here!!!");
+                            JSONObject resp_msg=jsonObject.getJSONObject("resp_msg");
+                            Log.i("RESP","[getincidentfacts] msg : "+resp_msg);
+                            return;
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e("TEST",t.getMessage().toString());
+                showToast("Failure to update Incident ");
+                finish();
+            }
+        });
+    }
 
     private void updateResponderIncidentInfo() {
         Map<String,String> params = new HashMap<>();
@@ -205,6 +249,9 @@ public class UpdateIncidentActivity extends BaseActivity {
 //        params.put("Location", tv_act_incidentview_camplocation.getText().toString());
         //params.put("currentTime", str_selectedcondtion);
         //params.put("desc", tv_act_incidentview_incidentdescription.getText().toString());
+//        params.put("Description", tv_act_incidentview_incidentdescription.getText().toString());
+        getIncidentFacts();
+        params.put("Description", incident.getDescription());
         params.put("Location", incident.getLatLon());
         params.put("Casualty_Condition", "");
         params.put("Remarks", et_act_incidentview_responderremarks.getText().toString());
@@ -215,6 +262,7 @@ public class UpdateIncidentActivity extends BaseActivity {
         //Log.i("TEST", "[UpdateIncidentActivity] msg: " + incident.getId() + " " + CacheUtils.getUserId(this) + " " + str_selectedcondtion + " " + tv_act_incidentview_incidentdescription.getText().toString()+ " " + tv_act_incidentview_camplocation.getText().toString() + " " + et_act_incidentview_responderremarks.getText().toString());
 
         Call<JsonObject> call = RetrofitUtils.getInstance().updateResponderIncidentInfo(params);
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
