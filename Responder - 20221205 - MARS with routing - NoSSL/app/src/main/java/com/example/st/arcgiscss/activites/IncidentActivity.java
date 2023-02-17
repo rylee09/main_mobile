@@ -62,7 +62,7 @@ public class IncidentActivity extends BaseActivity {
     @D3View
     MaterialSpinner sp_incident_type, sp_location, sp_location_name, sp_condition;
     @D3View
-    TextView tv_act_location, tv_dtg, tv_location;
+    TextView tv_act_location, tv_dtg, tv_location, tv_updatedDesc;
 
     public Gson gson;
 
@@ -194,6 +194,7 @@ public class IncidentActivity extends BaseActivity {
                incident.setStatus("");
                incident.setLat(str_incident_point_lat);
                incident.setLng(str_incident_point_lon);
+               incident.setRealTimeDescription(tv_updatedDesc.getText().toString());
 
                uploadIncidentData();
                break;

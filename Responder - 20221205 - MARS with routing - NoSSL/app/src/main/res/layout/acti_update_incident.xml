@@ -232,8 +232,7 @@
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fillViewport="true"
-                    >
+                    android:fillViewport="true">
 
                     <TextView
                         android:id="@+id/tv_act_incidentview_incidentdescription"
@@ -587,6 +586,7 @@
 <!--                    android:textColor="@color/incident_textcolor"-->
 <!--                    android:textSize="18sp" />-->
 <!--            </LinearLayout>-->
+<!--            android:id="@+id/tv_act_incidentview_incidentdescription"-->
 
         </LinearLayout>
     </ScrollView>

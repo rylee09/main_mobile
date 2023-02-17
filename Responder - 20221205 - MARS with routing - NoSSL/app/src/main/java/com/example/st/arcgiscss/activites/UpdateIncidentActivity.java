@@ -19,6 +19,7 @@ import com.example.st.arcgiscss.util.RetrofitUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,7 +41,7 @@ public class UpdateIncidentActivity extends BaseActivity {
     Button btn_close_update;
 
     @D3View
-    TextView tv_act_incidentview_incident_type, tv_act_incidentview_activation_time, tv_act_incidentview_incidentdescription, tv_act_incidentview_incident_id;
+    TextView tv_act_incidentview_incident_type, tv_act_incidentview_activation_time, tv_act_incidentview_incidentdescription, tv_act_incidentview_incident_id,tv_incident_facts;
 
 //    @D3View
 //    MaterialSpinner sp_casualtycondition;
@@ -90,9 +91,15 @@ public class UpdateIncidentActivity extends BaseActivity {
         }
 
         if (incident.getDescription()!=null){
+            getIncidentFacts();
+        //   tv_act_incidentview_incidentdescription.setText(incident.getDescription());
 
-            tv_act_incidentview_incidentdescription.setText(incident.getDescription());
         }
+
+//        if (incident.getRealTimeDescription() != null) {
+//
+//            tv_incident_facts.setText((incident.getRealTimeDescription()));
+//        }
 
         if(incident.getLatLon()!=null){
 //            tv_act_incidentview_camplocation.setText((incident.getLatLon()));
@@ -193,6 +200,7 @@ public class UpdateIncidentActivity extends BaseActivity {
             case R.id.btn_close_update:
                 if (isUpdate) {
                     updateResponderIncidentInfo();
+                    getIncidentFacts();
                 } else {
                     //close activity
                     finish();
@@ -204,7 +212,7 @@ public class UpdateIncidentActivity extends BaseActivity {
     private void getIncidentFacts(){
         Map<String,String> params = new HashMap<>();
         params.put("incidentId", incident.getId());
-        params.put("description", incident.getDescription());
+//        params.put("description", incident.getRealTimeDescription());
         //Log.i("TEST", "[UpdateIncidentActivity] msg: " + incident.getId() + " " + CacheUtils.getUserId(this) + " " + str_selectedcondtion + " " + tv_act_incidentview_incidentdescription.getText().toString()+ " " + tv_act_incidentview_camplocation.getText().toString() + " " + et_act_incidentview_responderremarks.getText().toString());
 
         Call<JsonObject> call = RetrofitUtils.getInstance().getIncidentFacts(params);
@@ -221,8 +229,24 @@ public class UpdateIncidentActivity extends BaseActivity {
                             System.out.println("NANI?");
                         }else{
                             System.out.println("here!!!");
-                            JSONObject resp_msg=jsonObject.getJSONObject("resp_msg");
+                            JSONObject resp_msg= new JSONObject(response.body().toString());
+//                            JSONObject desc= new JSONObject(resp_msg.toString());
+                            System.out.println(resp_msg);
+                            //resp_msg.toString();
+//                            JSONObject resp_msg = new JSONObject().put("response.body().toString()");
+                            JSONArray desc= resp_msg.getJSONArray("resp_msg");
+                            JSONObject desc1= desc.getJSONObject(0);
+                            System.out.println(desc1);
+                            String desc2= desc1.getString("description");
+                            System.out.println(desc2);
+
+                            String desc3 = desc2.replace("%0a",System.lineSeparator());
+                           // String deyi= resp_msg.get("description");
+                           // jsonObject.getString("resp_msg");
+                            System.out.println(desc3);
                             Log.i("RESP","[getincidentfacts] msg : "+resp_msg);
+//                            tv_act_incidentview_incidentdescription.setText(incident.getRealTimeDescription());
+                            tv_act_incidentview_incidentdescription.setText(desc3);
                             return;
                         }
 
@@ -249,9 +273,7 @@ public class UpdateIncidentActivity extends BaseActivity {
 //        params.put("Location", tv_act_incidentview_camplocation.getText().toString());
         //params.put("currentTime", str_selectedcondtion);
         //params.put("desc", tv_act_incidentview_incidentdescription.getText().toString());
-//        params.put("Description", tv_act_incidentview_incidentdescription.getText().toString());
-        getIncidentFacts();
-        params.put("Description", incident.getDescription());
+//        params.put("Description", incident.getDescription());
         params.put("Location", incident.getLatLon());
         params.put("Casualty_Condition", "");
         params.put("Remarks", et_act_incidentview_responderremarks.getText().toString());
