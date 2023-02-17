@@ -439,7 +439,7 @@ public class LoginActivity extends BaseActivity implements CompoundButton.OnChec
 //                            //startNavigation(routeTask,routeParameters,routeResult);
 //                            Polyline routeGeometry = routeResult.getRoutes().get(0).getRouteGeometry();
 //
-//                            Route retRoute = routeResult.getRoutes().get(0);
+//                            Route retRoute = ruteResult.getRoutes().get(0);
 //                            List<DirectionManeuver> retDirections = retRoute.getDirectionManeuvers();
 //                                for (DirectionManeuver directionManeuver : retDirections) {
 //                                    Log.i("Directions", directionManeuver.getDirectionText());

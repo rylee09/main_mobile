@@ -126,6 +126,7 @@ public class RetrofitUtils {
         //ZN - 20200607
         String SETINCIDENTCOMPLETE = "setIncidentComplete";
 
+        String SETRESPONDERATBASE= "setresponderAtbase";
         //ZN - 20201203
         String SETINCIDENTSTATUS = "setIncidentStatus";
 
@@ -226,6 +227,10 @@ public class RetrofitUtils {
         @FormUrlEncoded
         @POST(SETINCIDENTCOMPLETE)
         Call<JsonObject> setIncidentComplete(@FieldMap Map<String, String> maps);
+
+        @FormUrlEncoded
+        @POST(SETRESPONDERATBASE)
+        Call<JsonObject> setresponderAtbase(@FieldMap Map<String, String> maps);
 
         //ZN - 20201203
         @FormUrlEncoded
