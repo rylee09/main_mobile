@@ -1,12 +1,20 @@
 package com.example.st.arcgiscss.mqtt;
 
+import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.example.st.arcgiscss.R;
 import com.example.st.arcgiscss.constant.MyApplication;
 import com.example.st.arcgiscss.model.FuelTopUp;
 import com.example.st.arcgiscss.model.NewIncident;
@@ -32,6 +40,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static java.lang.Thread.sleep;
+
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 public class GetNewInfoService extends Service {
     private String TAG = getClass().getSimpleName();
@@ -59,6 +71,10 @@ public class GetNewInfoService extends Service {
     //ZN - 20211201 cancel task assignment
     private boolean isCheckIncidentCancellation;
 
+    NotificationCompat.Builder builder;
+    PendingIntent pendingActivationIntent, pendingOwnIntent;
+
+
 
     @Override
     public void onCreate(){
@@ -74,6 +90,7 @@ public class GetNewInfoService extends Service {
 
         //ZN - 20210630 init User object
         user = CacheUtils.getUser(this);
+
     }
 
     @Override
@@ -125,6 +142,12 @@ public class GetNewInfoService extends Service {
 
                 //ZN - 20211201 cancel task assignment
                 getCancelledIncident();
+
+                //get notification update
+                   getNotificationUpdate();
+
+                   // reset notification update
+                resetNotificationUpdate();
 
                 //ZN - 20220606 store and forward
                 //updateActivationTiming();
@@ -534,7 +557,7 @@ public class GetNewInfoService extends Service {
                     }
 
                     resp_msg = jsonObject.getString("resp_msg");
-                    if (resp_msg.equalsIgnoreCase("CANCELLED"))
+                    if (resp_msg.equalsIgnoreCase("CANCELLED")||resp_msg.equalsIgnoreCase("NEW"))
                         intent.putExtra("cancelled_incident", resp_msg);
 
                 } catch(JSONException e){ e.printStackTrace(); }
@@ -550,7 +573,153 @@ public class GetNewInfoService extends Service {
         });
     }
 
-    //ZN - 20220606 store and forward
+    //ZN - 20211201 update for notifications - method to poll for updated notifications
+    private void getNotificationUpdate() {
+        Map<String,String> params = new HashMap<>();
+        params.put("incident_id", application.getCurrentIncidentID());
+        Call<JsonObject> call = RetrofitUtils.getInstance().getNotificationUpdate(params);
+        call.enqueue(new Callback<JsonObject>() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    PendingIntent pendingActivationIntent;
+                    Intent intent_newMainActivity = new Intent(GetNewInfoService.this, GetNewInfoService.class);
+                    intent_newMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    pendingActivationIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent_newMainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        String name = "My Channel";
+                        String descriptionText = "My Channel Description";
+                        int importance = NotificationManager.IMPORTANCE_HIGH;
+                        NotificationChannel channel = new NotificationChannel("channelId", name, importance);
+                        channel.setDescription(descriptionText);
+                        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                        notificationManager.createNotificationChannel(channel);
+                    }
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "channelId")
+                            .setSmallIcon(R.mipmap.red_cross)
+                            .setContentTitle("New Details")
+                            .setStyle(new NotificationCompat.BigTextStyle()
+                                    .bigText("New Details"))
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setCategory(NotificationCompat.CATEGORY_CALL)
+                            .setFullScreenIntent(pendingActivationIntent, true)
+                            .setAutoCancel(true);
+                Intent intent = new Intent("NewUpdateNotification");
+                String resp_msgUpdate;
+                JSONObject jsonObject;
+
+                try {
+//                    Log.i("POLLING","[GetNewInfoService] getNotificationUpdate(): "+ response.body().toString());
+                    jsonObject = new JSONObject(response.body().toString());
+                    int resp_code = jsonObject.getInt("resp_code");
+                    if (resp_code == 0){
+                        return;
+                    }
+                        System.out.println("Till here!");
+                        resp_msgUpdate = jsonObject.getString("resp_msg");
+                    NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                    notificationManager.notify(110, builder.build());
+                    //before that do a sleep for 30 sec,call api to set the thing to -1
+                    sleep(30000);
+
+//                    resetNotificationUpdate();
+
+
+                } catch(JSONException e){ e.printStackTrace();
+
+                    }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+
+                Log.i("BROADCAST", "sending broadcast: NewUpdateNotification");
+                System.out.println(intent);
+                sendBroadcast(intent);
+
+
+//                NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+//                notificationManager.cancel(100);
+
+            }
+//
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.i("Main","[getNotificationUpdate] FAILED: " + t.getMessage().toString());
+            }
+        });
+    }
+
+    private void resetNotificationUpdate(){
+        Map<String,String> params = new HashMap<>();
+        params.put("incident_id", application.getCurrentIncidentID());
+        Call<JsonObject> call = RetrofitUtils.getInstance().resetNotificationUpdate(params);
+        call.enqueue(new Callback<JsonObject>() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                PendingIntent pendingActivationIntent;
+                Intent intent_newMainActivity = new Intent(GetNewInfoService.this, GetNewInfoService.class);
+                intent_newMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                pendingActivationIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent_newMainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    String name = "My Channel 1";
+                    String descriptionText = "My Channel Description";
+                    int importance = NotificationManager.IMPORTANCE_HIGH;
+                    NotificationChannel channel = new NotificationChannel("channelId", name, importance);
+                    channel.setDescription(descriptionText);
+                    NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                    notificationManager.createNotificationChannel(channel);
+                }
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "channelId")
+                        .setSmallIcon(R.mipmap.red_cross)
+                        .setContentTitle("Reset")
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText("Reset"))
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setCategory(NotificationCompat.CATEGORY_CALL)
+                        .setFullScreenIntent(pendingActivationIntent, true)
+                        .setAutoCancel(true);
+                Intent intent = new Intent("NewNotificationReset");
+                String resp_msgUpdate;
+                JSONObject jsonObject;
+
+                try {
+//                    Log.i("POLLING","[GetNewInfoService] getNotificationUpdate(): "+ response.body().toString());
+                    jsonObject = new JSONObject(response.body().toString());
+                    int resp_code = jsonObject.getInt("resp_code");
+                    if (resp_code == 0){
+                        return;
+                    }
+                    System.out.println("Update reset!");
+                    resp_msgUpdate = jsonObject.getString("resp_msg");
+                    NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                    notificationManager.notify(110, builder.build());
+                    //before that do a sleep for 30 sec,call api to set the thing to -1
+                    sleep(30000);
+
+                } catch(JSONException e){
+                    e.printStackTrace();
+
+                }
+                catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+
+                Log.i("BROADCAST", "sending broadcast: NewNotificationReset");
+                System.out.println(intent);
+                sendBroadcast(intent);
+
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.i("Main","[resetNotificationUpdate] FAILED: " + t.getMessage().toString());
+            }
+
+        });
+
+    };
+
+   //ZN - 20220606 store and forward
     private void updateActivationTiming() {
         Map<String,String> params = application.getActivationTimingsMap();
         if (params.size() == 0) {

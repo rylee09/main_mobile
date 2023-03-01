@@ -18,6 +18,7 @@ public class NewIncident implements Serializable {
     private String timestamp;
     private String lat;
     private String lng;
+    private String updatedDesc;
 
     //ZN - 20200618
     private String locationType;
@@ -104,6 +105,12 @@ public class NewIncident implements Serializable {
         return this.description;
     }
 
+    public String getRealTimeDescription(){
+        return this.updatedDesc;
+    }
+
+    public void setRealTimeDescription(String updatedDesc){this.updatedDesc = updatedDesc;}
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -153,6 +160,10 @@ public class NewIncident implements Serializable {
 
     public String getTimestamp() {
         return this.timestamp;
+    }
+
+    public String getIncidentID(){
+        return this.id;
     }
 
     public void setTimestamp(String timestamp) {
@@ -284,6 +295,7 @@ public class NewIncident implements Serializable {
         ret_str = str_toString.substring(0, index) + extra_json + str_toString.substring(index);
         return ret_str;
     }
+
 
 
 }

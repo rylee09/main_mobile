@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
@@ -144,6 +145,8 @@ public class NewMainActivity extends BaseActivity {
     //ZN - 20211201 cancel task assignment
     private NewCancelledIncidentReceiver newCancelledIncidentReceiver;
 
+    private NewUpdateNotification newUpdateNotification;
+    private NewNotificationReset newNotificationReset;
     //ZN - 20220125 consolidate peer readiness method call
     private NewPeerReadinessMsgReceiver newPeerReadinessMsgReceiver;
 
@@ -178,6 +181,7 @@ public class NewMainActivity extends BaseActivity {
     //ZN - 20211201 cancel task assignment
     public static final String SYSTEM_CANCELLED = "CANCELLED";
 
+    public static final String SYSTEM_UPDATED = "UPDATED";
     //ZN - 20210706
     private boolean isAppBackground = false;
     private int link_status_counter = 0;
@@ -294,6 +298,7 @@ public class NewMainActivity extends BaseActivity {
         createLinkStatusNotificationChannel();
         //ZN - 20210819 create notification channel for incident notification
         createActivationNotificationChannel();
+        createUpdateOfNotification();
 
         //ZN - 20211201 cancel task assignment - cancel notification
         createCancellationNotificationChannel();
@@ -320,7 +325,8 @@ public class NewMainActivity extends BaseActivity {
 
         //ZN - 20211201 cancel task assignment
         newCancelledIncidentReceiver = new NewCancelledIncidentReceiver();
-
+        newUpdateNotification = new NewUpdateNotification();
+        newNotificationReset = new NewNotificationReset();
         //ZN - 20220125 consolidate peer readiness method call
         newPeerReadinessMsgReceiver = new NewPeerReadinessMsgReceiver();
 
@@ -804,7 +810,7 @@ public class NewMainActivity extends BaseActivity {
 
         builder  = new NotificationCompat.Builder(this, "Cancellation")
                 .setSmallIcon(R.mipmap.red_cross)
-                .setContentTitle("Incident Cancelled")
+                .setContentTitle("Incident Cancelled 123")
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText("Incident Cancelled"))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -843,6 +849,108 @@ public class NewMainActivity extends BaseActivity {
         }
     }
 
+//    private void createUpdateOfNotificationAndIntent() {
+//        Log.i("NOTIFICATION", "[createUpdateOfNotification] inside");
+//        Intent intent_newMainActivity = new Intent(NewMainActivity.this, NewMainActivity.class);
+//        intent_newMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//        //intent_newMainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//        pendingActivationIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent_newMainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        builder  = new NotificationCompat.Builder(this, "Update")
+//                .setSmallIcon(R.mipmap.red_cross)
+//                .setContentTitle("Incident Updated")
+//                .setStyle(new NotificationCompat.BigTextStyle()
+//                        .bigText("Incident Updated"))
+//                .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                .setCategory(NotificationCompat.CATEGORY_CALL)
+//                .setFullScreenIntent(pendingActivationIntent, true)
+//                .setAutoCancel(true);
+//    }
+//
+//    //ZN - 20211201 cancel task assignment - create notification
+//    private void createUpdateOfNotification() {
+//        // Create the NotificationChannel, but only on API 26+ because
+//        // the NotificationChannel class is new and not in the support library
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            CharSequence name = "Sample";
+//            String description = "Testing Notification";
+//            int importance = NotificationManager.IMPORTANCE_HIGH;
+//            NotificationChannel cancel_channel = new NotificationChannel("Update", name, importance);
+//            cancel_channel.setDescription(description);
+//
+//            //ZN - 20210707 set notification settings in channel instead
+////            Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.cancelled);
+//            Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/raw/cancelled");
+//            AudioAttributes attributes = new AudioAttributes.Builder()
+//                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+//                    .build();
+//            cancel_channel.setDescription("Incident Updated");
+//            cancel_channel.enableLights(true);
+//            cancel_channel.enableVibration(true);
+//            cancel_channel.setSound(soundUri, attributes);
+//
+//            // Register the channel with the system; you can't change the importance
+//            // or other notification behaviors after this
+//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+//            notificationManager.createNotificationChannel(cancel_channel);
+//
+//        }
+//    }
+
+    private void createUpdateOfNotificationAndIntent() {
+//        n_incident_location = "Location: " + incident.getLatLon();
+//        n_incident_type = "Type: " + incident.getType();
+//        n_incident_LUP = "Collection Point: " + incident.getActivationLocation();
+
+        Log.i("NOTIFICATION", "[createUpdateOfNotificationAndIntent] inside");
+        Intent intent_newMainActivity = new Intent(NewMainActivity.this, NewMainActivity.class);
+//        intent_newMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        //intent_newMainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        pendingActivationIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent_newMainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        builder  = new NotificationCompat.Builder(this, "Incident")
+                .setSmallIcon(R.mipmap.red_cross)
+                .setContentTitle("Message Update")
+//                .setStyle(new NotificationCompat.BigTextStyle()
+//                        .bigText(n_incident_LUP + "\n" + n_incident_type + "\n" + n_incident_location))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_CALL)
+//                .setFullScreenIntent(pendingActivationIntent, true)
+                .setAutoCancel(true);
+    }
+
+    //ZN - 20210819 notification channel for incident activation
+    private void createUpdateOfNotification() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Sample";
+            String description = "Testing Notification";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel activation_channel = new NotificationChannel("Incident", name, importance);
+            activation_channel.setDescription(description);
+
+            //ZN - 20210707 set notification settings in channel instead
+//            Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.siren);
+//            String str_env = Environment.getExternalStorageDirectory().getAbsolutePath();
+//            String str_arcgis = this.getResources().getString(R.string.config_data_sdcard_offline_dir);
+//            String dir = str_env+File.separator+str_arcgis;
+//            Uri soundUri = Uri.fromFile(new File(dir,"siren.mp3"));
+            AudioAttributes attributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .build();
+            activation_channel.setDescription("Message Updated");
+            activation_channel.enableLights(true);
+            activation_channel.enableVibration(true);
+//            activation_channel.setSound(soundUri, attributes);
+
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(activation_channel);
+        }
+    }
+
     public class NewMQTTMsgReceiver2 extends BroadcastReceiver {
         @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
@@ -873,6 +981,12 @@ public class NewMainActivity extends BaseActivity {
                 createActivationNotificationAndIntent();
                 Notification n = builder.build();
                 n.flags |= Notification.FLAG_INSISTENT;
+                notificationManagerCompat.notify(100, n);
+
+                //display notification for message update
+                createUpdateOfNotification();
+                Notification n1 = builder.build();
+                n1.flags |= Notification.FLAG_INSISTENT;
                 notificationManagerCompat.notify(100, n);
 
                 //disable bottom menu buttons except HOME
@@ -1078,6 +1192,84 @@ public class NewMainActivity extends BaseActivity {
 
                     //ZN - 20211201 cancel task assignment - cancel notification
                     createCancellationNotificationAndIntent();
+                    Notification n = builder.build();
+                    n.flags |= Notification.FLAG_INSISTENT;
+                    notificationManagerCompat.notify(102, n);
+
+                    //ZN - 20220703 bug fix to enable buttons after incident cancelled
+                    btn_task_request.setEnabled(true);
+                    btn_more.setEnabled(true);
+                    btn_task_assign.setEnabled(true);
+
+                    //ZN - 20220720 restore activation - clear activation log
+                    LogcatHelper.clearActivationLog();
+                }
+            }
+        }
+    }
+
+    public class NewUpdateNotification extends BroadcastReceiver {
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i("onReceive1", "[NewUpdateNotification] onReceive");
+            System.out.println(intent);
+            if (intent.getAction().equals("NewUpdateNotification")) {
+                if (intent.getExtras() != null) {
+
+                    //ZN - 20220619 logging to external file
+                    Log.i("ERS_EVENT", "[NewUpdateNotification] update received");
+
+                    String status = (String) intent.getExtras().getSerializable("notification_update");
+                    Intent fragIntent = new Intent("NewUpdateNotification");
+                    fragIntent.putExtra("notification_update", status);
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(fragIntent);
+
+                    //ZN - 20211201 cancel task assignment
+//                    MyApplication.getInstance().setRcvIncidentNotification(false);
+//                    unregisterCancelledIncidentListener();
+
+                    //ZN - 20211201 cancel task assignment - cancel notification
+                    createUpdateOfNotificationAndIntent();
+                    Notification n = builder.build();
+                    n.flags |= Notification.FLAG_INSISTENT;
+                    notificationManagerCompat.notify(102, n);
+
+                    //ZN - 20220703 bug fix to enable buttons after incident cancelled
+                    btn_task_request.setEnabled(true);
+                    btn_more.setEnabled(true);
+                    btn_task_assign.setEnabled(true);
+
+                    //ZN - 20220720 restore activation - clear activation log
+                    LogcatHelper.clearActivationLog();
+                }
+            }
+        }
+    }
+
+    public class NewNotificationReset extends BroadcastReceiver {
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i("onReceive1", "[NewNotificationReset] onReceive");
+            System.out.println(intent);
+            if (intent.getAction().equals("NewNotificationReset")) {
+                if (intent.getExtras() != null) {
+
+                    //ZN - 20220619 logging to external file
+                    Log.i("ERS_EVENT", "[NewNotificationReset] update received");
+
+                    String status = (String) intent.getExtras().getSerializable("notification_update");
+                    Intent fragIntent = new Intent("NewNotificationReset");
+                    fragIntent.putExtra("notification_update", status);
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(fragIntent);
+
+                    //ZN - 20211201 cancel task assignment
+//                    MyApplication.getInstance().setRcvIncidentNotification(false);
+//                    unregisterCancelledIncidentListener();
+
+                    //ZN - 20211201 cancel task assignment - cancel notification
+                    createUpdateOfNotificationAndIntent();
                     Notification n = builder.build();
                     n.flags |= Notification.FLAG_INSISTENT;
                     notificationManagerCompat.notify(102, n);

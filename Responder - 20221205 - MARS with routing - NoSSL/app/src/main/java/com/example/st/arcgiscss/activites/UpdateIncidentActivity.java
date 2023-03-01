@@ -1,5 +1,14 @@
 package com.example.st.arcgiscss.activites;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.media.AudioAttributes;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +18,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.st.arcgiscss.R;
 import com.example.st.arcgiscss.d3View.D3View;
@@ -18,6 +31,10 @@ import com.example.st.arcgiscss.util.CacheUtils;
 import com.example.st.arcgiscss.util.RetrofitUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,13 +54,15 @@ public class UpdateIncidentActivity extends BaseActivity {
     Button btn_close_update;
 
     @D3View
-    TextView tv_act_incidentview_incident_type, tv_act_incidentview_activation_time, tv_act_incidentview_incidentdescription;
+    TextView tv_act_incidentview_incident_type, tv_act_incidentview_activation_time, tv_act_incidentview_incidentdescription, tv_act_incidentview_incident_id,tv_incident_facts;
 
 //    @D3View
 //    MaterialSpinner sp_casualtycondition;
 
     @D3View
     EditText et_act_incidentview_responderremarks;
+
+    public Context context;
 
     public Gson gson;
 
@@ -87,8 +106,15 @@ public class UpdateIncidentActivity extends BaseActivity {
         }
 
         if (incident.getDescription()!=null){
-            tv_act_incidentview_incidentdescription.setText(incident.getDescription());
+            getIncidentFacts();
+        //   tv_act_incidentview_incidentdescription.setText(incident.getDescription());
+
         }
+
+//        if (incident.getRealTimeDescription() != null) {
+//
+//            tv_incident_facts.setText((incident.getRealTimeDescription()));
+//        }
 
         if(incident.getLatLon()!=null){
 //            tv_act_incidentview_camplocation.setText((incident.getLatLon()));
@@ -118,6 +144,11 @@ public class UpdateIncidentActivity extends BaseActivity {
         //ZN - 20210615 for activation timing
         if (incident.getTimestamp() != null) {
             tv_act_incidentview_activation_time.setText(incident.getTimestamp());
+        }
+
+        //RY - 20230207 to retrieve incident id
+        if (incident.getIncidentID() != null) {
+            tv_act_incidentview_incident_id.setText(incident.getIncidentID());
         }
 
         //ZN - 20210118 fixed missing camp location field
@@ -184,12 +215,124 @@ public class UpdateIncidentActivity extends BaseActivity {
             case R.id.btn_close_update:
                 if (isUpdate) {
                     updateResponderIncidentInfo();
+                    getIncidentFacts();
+//                    createUpdateOfNotification();
+//                    notificationUpdate();
                 } else {
                     //close activity
                     finish();
                 }
 
                 break;
+        }
+    }
+    private void getIncidentFacts(){
+        Map<String,String> params = new HashMap<>();
+        params.put("incidentId", incident.getId());
+//        params.put("description", incident.getRealTimeDescription());
+        //Log.i("TEST", "[UpdateIncidentActivity] msg: " + incident.getId() + " " + CacheUtils.getUserId(this) + " " + str_selectedcondtion + " " + tv_act_incidentview_incidentdescription.getText().toString()+ " " + tv_act_incidentview_camplocation.getText().toString() + " " + et_act_incidentview_responderremarks.getText().toString());
+
+        Call<JsonObject> call = RetrofitUtils.getInstance().getIncidentFacts(params);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(response.body().toString());
+                        System.out.println("details" + jsonObject);
+                        if (jsonObject.getInt("resp_code") == -1) {
+                      //do nth
+                            System.out.println("NANI?");
+                        }else{
+                            System.out.println("here!!!");
+                            JSONObject resp_msg= new JSONObject(response.body().toString());
+//                            JSONObject desc= new JSONObject(resp_msg.toString());
+                            System.out.println(resp_msg);
+                            //resp_msg.toString();
+//                            JSONObject resp_msg = new JSONObject().put("response.body().toString()");
+                            JSONArray desc= resp_msg.getJSONArray("resp_msg");
+                            JSONObject desc1= desc.getJSONObject(0);
+                            System.out.println(desc1);
+                            String desc2= desc1.getString("description");
+                            System.out.println(desc2);
+
+                            String desc3 = desc2.replace("%0a",System.lineSeparator());
+                           // String deyi= resp_msg.get("description");
+                           // jsonObject.getString("resp_msg");
+                            System.out.println(desc3);
+                            Log.i("RESP","[getincidentfacts] msg : "+resp_msg);
+//                            tv_act_incidentview_incidentdescription.setText(incident.getRealTimeDescription());
+                            tv_act_incidentview_incidentdescription.setText(desc3);
+                            return;
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e("TEST",t.getMessage().toString());
+                showToast("Failure to update Incident ");
+                finish();
+            }
+        });
+    }
+
+    NotificationCompat.Builder builder;
+    PendingIntent pendingActivationIntent, pendingOwnIntent;
+
+
+    private void createUpdateOfNotification() {
+        Log.i("NOTIFICATION", "[createUpdateOfNotification] inside");
+        Intent intent_newMainActivity = new Intent(UpdateIncidentActivity.this, NewMainActivity.class);
+        intent_newMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        //intent_newMainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        pendingActivationIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent_newMainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        builder  = new NotificationCompat.Builder(this, "Cancellation")
+                .setSmallIcon(R.mipmap.red_cross)
+                .setContentTitle("Incident Updated")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("Incident Updated"))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_CALL)
+                .setFullScreenIntent(pendingActivationIntent, true)
+                .setAutoCancel(true);
+    }
+
+    //ZN - 20211201 cancel task assignment - create notification
+    private void createCancellationNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        Toast.makeText(context, "notification received", Toast.LENGTH_SHORT).show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Sample";
+            String description = "Testing Notification";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel cancel_channel = new NotificationChannel("Update", name, importance);
+            cancel_channel.setDescription(description);
+
+            //ZN - 20210707 set notification settings in channel instead
+//            Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.cancelled);
+            Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/raw/cancelled");
+            AudioAttributes attributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .build();
+            cancel_channel.setDescription("Incident Updated");
+            cancel_channel.enableLights(true);
+            cancel_channel.enableVibration(true);
+            cancel_channel.setSound(soundUri, attributes);
+
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(cancel_channel);
+
         }
     }
 
@@ -200,6 +343,7 @@ public class UpdateIncidentActivity extends BaseActivity {
 //        params.put("Location", tv_act_incidentview_camplocation.getText().toString());
         //params.put("currentTime", str_selectedcondtion);
         //params.put("desc", tv_act_incidentview_incidentdescription.getText().toString());
+//        params.put("Description", incident.getDescription());
         params.put("Location", incident.getLatLon());
         params.put("Casualty_Condition", "");
         params.put("Remarks", et_act_incidentview_responderremarks.getText().toString());
@@ -210,6 +354,7 @@ public class UpdateIncidentActivity extends BaseActivity {
         //Log.i("TEST", "[UpdateIncidentActivity] msg: " + incident.getId() + " " + CacheUtils.getUserId(this) + " " + str_selectedcondtion + " " + tv_act_incidentview_incidentdescription.getText().toString()+ " " + tv_act_incidentview_camplocation.getText().toString() + " " + et_act_incidentview_responderremarks.getText().toString());
 
         Call<JsonObject> call = RetrofitUtils.getInstance().updateResponderIncidentInfo(params);
+
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
