@@ -21,7 +21,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:visibility="visible"/>
+                android:visibility="visible">
+
+
+                <ImageView
+                    android:id="@+id/iv_createIncident"
+                    android:layout_width="61dp"
+                    android:layout_height="66dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="175dp"
+                    android:layout_marginTop="200dp"
+                    android:layout_marginBottom="-15dp"
+                    android:src="@drawable/add_button_main_foreground" />
+
+            </LinearLayout>
         </com.esri.arcgisruntime.mapping.view.MapView>
 
         <LinearLayout
@@ -88,7 +101,7 @@
             android:layout_alignParentBottom="true"
             android:layout_gravity="center"
             android:layout_marginTop="130dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginBottom="360dp"
             android:src="@mipmap/iv_self_bg" />
 

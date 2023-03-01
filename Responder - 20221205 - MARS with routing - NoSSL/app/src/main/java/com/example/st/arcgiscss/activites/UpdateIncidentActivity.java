@@ -1,5 +1,14 @@
 package com.example.st.arcgiscss.activites;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.media.AudioAttributes;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +18,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.st.arcgiscss.R;
 import com.example.st.arcgiscss.d3View.D3View;
@@ -48,6 +61,8 @@ public class UpdateIncidentActivity extends BaseActivity {
 
     @D3View
     EditText et_act_incidentview_responderremarks;
+
+    public Context context;
 
     public Gson gson;
 
@@ -201,6 +216,8 @@ public class UpdateIncidentActivity extends BaseActivity {
                 if (isUpdate) {
                     updateResponderIncidentInfo();
                     getIncidentFacts();
+//                    createUpdateOfNotification();
+//                    notificationUpdate();
                 } else {
                     //close activity
                     finish();
@@ -264,6 +281,59 @@ public class UpdateIncidentActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    NotificationCompat.Builder builder;
+    PendingIntent pendingActivationIntent, pendingOwnIntent;
+
+
+    private void createUpdateOfNotification() {
+        Log.i("NOTIFICATION", "[createUpdateOfNotification] inside");
+        Intent intent_newMainActivity = new Intent(UpdateIncidentActivity.this, NewMainActivity.class);
+        intent_newMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        //intent_newMainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        pendingActivationIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent_newMainActivity, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        builder  = new NotificationCompat.Builder(this, "Cancellation")
+                .setSmallIcon(R.mipmap.red_cross)
+                .setContentTitle("Incident Updated")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("Incident Updated"))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_CALL)
+                .setFullScreenIntent(pendingActivationIntent, true)
+                .setAutoCancel(true);
+    }
+
+    //ZN - 20211201 cancel task assignment - create notification
+    private void createCancellationNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        Toast.makeText(context, "notification received", Toast.LENGTH_SHORT).show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Sample";
+            String description = "Testing Notification";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel cancel_channel = new NotificationChannel("Update", name, importance);
+            cancel_channel.setDescription(description);
+
+            //ZN - 20210707 set notification settings in channel instead
+//            Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.cancelled);
+            Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/raw/cancelled");
+            AudioAttributes attributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .build();
+            cancel_channel.setDescription("Incident Updated");
+            cancel_channel.enableLights(true);
+            cancel_channel.enableVibration(true);
+            cancel_channel.setSound(soundUri, attributes);
+
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(cancel_channel);
+
+        }
     }
 
     private void updateResponderIncidentInfo() {

@@ -126,6 +126,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.Manifest.permission.CALL_PHONE;
+import static com.example.st.arcgiscss.R.*;
 
 //import com.example.st.arcgiscss.util.SimulatedLocationDataSource;
 
@@ -133,6 +134,9 @@ public class MainActivity<INCIDENT> extends BaseActivity{
     private RouteTracker mRouteTracker;
     private Graphic mRouteAheadGraphic;
     private Graphic mRouteTraveledGraphic;
+
+    private ImageView showForm;
+    private TextView showDate;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -149,6 +153,8 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 
     @D3View
     RotationLoadingView item_loading_image;
+
+    private NewIncident incident;
 
     private MapView mMapView;
 
@@ -193,6 +199,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
     //ZN - 20211201 cancel task assignment
     private NewCancelledIncidentReceiver newCancelledIncidentReceiver;
 
+    private NewMainActivity.NewUpdateNotification newUpdateNotification;
     private List<Graphic> incidentGraphics = new ArrayList<>();
 
     //ZN - 20200608
@@ -267,13 +274,32 @@ public class MainActivity<INCIDENT> extends BaseActivity{
     private NewIncident p_incident;
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+//        iv_createIncident = findViewById(R.id.iv_createIncident);
+
         Log.i("EVENT","[MainActivity] onCreate");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(layout.activity_main);
+
+        showForm = findViewById(id.iv_createIncident);
+//        showDate = findViewById(id.tv_dtg);
+//        actualForm = findViewById(R.layout.acti_incident);
+
+        showForm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+setContentView(layout.acti_incident);
+//showDate.setText("today's date");
+            }
+        });
+//        tv_dtg.setText(incident.getTimestamp());
+
+
         application = MyApplication.getInstance();
-        mMapView = findViewById(R.id.mapView);
+        mMapView = findViewById(id.mapView);
         //locationType = (LocationType) getIntent().getSerializableExtra("locations");
 
         //ZN - 20210420 reference map objects from initialised from LoginActivity
@@ -312,7 +338,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 //        mainLayout.setVisibility(LinearLayout.GONE);
 
         //ZN - 20210201 to display username
-        TextView tv_username = (TextView) findViewById(R.id.tv_callsign);
+        TextView tv_username = (TextView) findViewById(id.tv_callsign);
 //        tv_username.setText(MyApplication.getInstance().getUsername());
         tv_username.setText(application.getUsername());
 
@@ -327,9 +353,9 @@ public class MainActivity<INCIDENT> extends BaseActivity{
         });
 
         //ZN - 20210223
-        distanceRemainingTextView = findViewById(R.id.tv_remain_dist);
-        timeRemainingTextView = findViewById(R.id.tv_ETA);
-        nextDirectionTextView = findViewById(R.id.tv_directions);
+        distanceRemainingTextView = findViewById(id.tv_remain_dist);
+        timeRemainingTextView = findViewById(id.tv_ETA);
+        nextDirectionTextView = findViewById(id.tv_directions);
 
         //add
         iv_self.setOnClickListener(new View.OnClickListener() {
@@ -422,10 +448,10 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 
         //ZN - 20211201 cancel task assignment - to make declarations global for setStandbyMode method
         activation_flag = NewMainActivity.MAIN_NOT_ACTIVATED;
-        iv = (ImageView) findViewById(R.id.iv_leftbase);
-        tv_statusText = (TextView) findViewById(R.id.tv_statusText);
-        mainLayout = (LinearLayout) findViewById(R.id.ll_menmue);
-        naviLayout = (LinearLayout) findViewById(R.id.ll_navigation);
+        iv = (ImageView) findViewById(id.iv_leftbase);
+        tv_statusText = (TextView) findViewById(id.tv_statusText);
+        mainLayout = (LinearLayout) findViewById(id.ll_menmue);
+        naviLayout = (LinearLayout) findViewById(id.ll_navigation);
 
         //ZN - 20221101 testing of draw routing and navigation, remove where not applicable
 //        MyPoint mp = new MyPoint(14.002519041014251+"", 99.24142172666781+"");
@@ -434,6 +460,8 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 //        startReadyNavigation();
 
     }
+
+
 
     private void initView() {
         getIncidentType();
@@ -592,9 +620,9 @@ public class MainActivity<INCIDENT> extends BaseActivity{
             //MyApplication.getInstance().setCurrentIncidentID(incident.getId());
             application.setCurrentIncidentID(incident.getId());
 
-            BitmapDrawable redwarn = (BitmapDrawable) ContextCompat.getDrawable(this, R.mipmap.redwarn);
+            BitmapDrawable redwarn = (BitmapDrawable) ContextCompat.getDrawable(this, mipmap.redwarn);
             if (incident.getStatus().equals("CLOSED")){
-                redwarn = (BitmapDrawable) ContextCompat.getDrawable(this, R.mipmap.warn_grey);
+                redwarn = (BitmapDrawable) ContextCompat.getDrawable(this, mipmap.warn_grey);
             }
             PictureMarkerSymbol redwarnpms = new PictureMarkerSymbol(redwarn);
             redwarnpms.setHeight(32);
@@ -675,7 +703,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 //                new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
 
         //ZN - 20210420 to refresh username in event of logout
-        TextView tv_username = (TextView) findViewById(R.id.tv_callsign);
+        TextView tv_username = (TextView) findViewById(id.tv_callsign);
 //        tv_username.setText(MyApplication.getInstance().getUsername());
         tv_username.setText(application.getUsername());
 
@@ -1486,7 +1514,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
         List<Stop> stops = Arrays.asList(new Stop(startPoint), new Stop(endPoint));
 
         //ZN - 20200624 for drawing CCP point graphic
-        BitmapDrawable CCP_pt = (BitmapDrawable) ContextCompat.getDrawable(this, R.mipmap.marker);
+        BitmapDrawable CCP_pt = (BitmapDrawable) ContextCompat.getDrawable(this, mipmap.marker);
 
         //ZN - 20210214 to store CCP as navigation destination
         destination_point = new Point(endPoint.getX(), endPoint.getY(), endPoint.getSpatialReference());
@@ -1827,7 +1855,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
         //ZN - 20201221
         //adjust for more text in notification
         builder  = new NotificationCompat.Builder(this, "Testing")
-                .setSmallIcon(R.mipmap.red_cross)
+                .setSmallIcon(mipmap.red_cross)
                 .setContentTitle("New Incident")
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(n_incident_LUP + "\n" + n_incident_type + "\n" + n_incident_location))
@@ -1843,7 +1871,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
     private void createUpdatePOCNotification(POCUpdate update) {
         //adjust for more text in notification
         builder  = new NotificationCompat.Builder(this, "Update_POC")
-                .setSmallIcon(R.mipmap.red_cross)
+                .setSmallIcon(mipmap.red_cross)
                 .setContentTitle("Update POC")
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(update.getName() + "\n" + update.getUnit() + "\n" + update.getContact()))
@@ -1862,7 +1890,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
             channel.setDescription(description);
 
             //ZN - 20210707 set notification settings in channel instead
-            Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.siren);
+            Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + raw.siren);
             AudioAttributes attributes = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                     .build();
@@ -1890,7 +1918,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
             channel.setDescription(description);
 
             //ZN - 20210707 set notification settings in channel instead
-            Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + R.raw.accomplished);
+            Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getApplicationContext().getPackageName() + "/" + raw.accomplished);
             AudioAttributes attributes = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                     .build();
@@ -1908,23 +1936,23 @@ public class MainActivity<INCIDENT> extends BaseActivity{
     //ZN - 20201218
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void showAllIncidentUpdateIconVisible() {
-        ImageView iv = (ImageView) findViewById(R.id.iv_leftbase);
+        ImageView iv = (ImageView) findViewById(id.iv_leftbase);
 
-        LinearLayout iv_bg = (LinearLayout) findViewById(R.id.iv_bg);
+        LinearLayout iv_bg = (LinearLayout) findViewById(id.iv_bg);
 
         iv_bg.setVisibility(View.VISIBLE);
         iv.setVisibility(View.VISIBLE);
         iv.setImageResource(0);
         //iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.base_exit));
-        iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.base_out_clear));
-        TextView tv_statusText = (TextView) findViewById(R.id.tv_statusText);
+        iv.setImageDrawable(this.getResources().getDrawable(mipmap.base_out_clear));
+        TextView tv_statusText = (TextView) findViewById(id.tv_statusText);
 
         //ZN - 20210119
         tv_statusText.setVisibility(View.VISIBLE);
         tv_statusText.setText("Left Base");
 
         //ZN - 20210201
-        LinearLayout mainLayout = (LinearLayout)this.findViewById(R.id.ll_menmue);
+        LinearLayout mainLayout = (LinearLayout)this.findViewById(id.ll_menmue);
         mainLayout.setVisibility(LinearLayout.VISIBLE);
 
         //ZN - 20210620
@@ -2067,9 +2095,9 @@ public class MainActivity<INCIDENT> extends BaseActivity{
                 String remainingTimeString = DateUtils
                         .formatElapsedTime((long) (trackingStatus.getDestinationProgress().getRemainingTime()));
                 // update text views
-                distanceRemainingTextView.setText(getString(R.string.distance_remaining, remainingDistance.getDisplayText(),
+                distanceRemainingTextView.setText(getString(string.distance_remaining, remainingDistance.getDisplayText(),
                         remainingDistance.getDisplayTextUnits().getPluralDisplayName()));
-                timeRemainingTextView.setText(getString(R.string.time_remaining, remainingTimeString+" minutes"));
+                timeRemainingTextView.setText(getString(string.time_remaining, remainingTimeString+" minutes"));
 
                 //update server on ETA
                 sendResponderETA(trackingStatus.getDestinationProgress().getRemainingTime());
@@ -2096,7 +2124,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
         public void onNewVoiceGuidance(RouteTracker.NewVoiceGuidanceEvent newVoiceGuidanceEvent) {
             speakVoiceGuidance(newVoiceGuidanceEvent.getVoiceGuidance().getText());
             nextDirectionTextView
-                    .setText(getString(R.string.next_direction, newVoiceGuidanceEvent.getVoiceGuidance().getText()));
+                    .setText(getString(string.next_direction, newVoiceGuidanceEvent.getVoiceGuidance().getText()));
         }
     };
 
@@ -2132,7 +2160,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
         evacPoint = new Point(Double.valueOf(evac_lat_lon[1]), Double.valueOf(evac_lat_lon[0]), SpatialReferences.getWgs84());
         Log.i("EVAC", "selected evac point: " + evacLocation + " " +  evacPoint.getX() + " " + evacPoint.getY());
 
-        BitmapDrawable redwarn = (BitmapDrawable) ContextCompat.getDrawable(this, R.mipmap.red_cross);
+        BitmapDrawable redwarn = (BitmapDrawable) ContextCompat.getDrawable(this, mipmap.red_cross);
         PictureMarkerSymbol redwarnpms = new PictureMarkerSymbol(redwarn);
         redwarnpms.setHeight(32);
         redwarnpms.setWidth(32);
@@ -2200,7 +2228,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 
             iv.setImageResource(0);
             //iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.base_enter));
-            iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.base_in_clear));
+            iv.setImageDrawable(this.getResources().getDrawable(mipmap.base_in_clear));
 
             //ZN - 20210116
             tv_statusText.setText("BACK AT BASE");
@@ -2209,7 +2237,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 
             mainLayout.setVisibility(LinearLayout.VISIBLE);
 
-            LinearLayout iv_bg = (LinearLayout) findViewById(R.id.iv_bg);
+            LinearLayout iv_bg = (LinearLayout) findViewById(id.iv_bg);
             iv_bg.setVisibility(LinearLayout.VISIBLE);
 
             iv_phone.setVisibility(View.VISIBLE);
@@ -2221,7 +2249,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 
             mainLayout.setVisibility(LinearLayout.INVISIBLE);
 
-            LinearLayout iv_bg = (LinearLayout) findViewById(R.id.iv_bg);
+            LinearLayout iv_bg = (LinearLayout) findViewById(id.iv_bg);
             iv_bg.setVisibility(LinearLayout.INVISIBLE);
 
             iv_phone.setVisibility(View.INVISIBLE);
@@ -2272,7 +2300,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
         List<Stop> stops = Arrays.asList(new Stop(tempPoint), new Stop(endPoint));
 
         //ZN - 20200624 for drawing CCP point graphic
-        BitmapDrawable CCP_pt = (BitmapDrawable) ContextCompat.getDrawable(this, R.mipmap.marker);
+        BitmapDrawable CCP_pt = (BitmapDrawable) ContextCompat.getDrawable(this, mipmap.marker);
 
         final ListenableFuture<RouteParameters> routeParametersFuture = routeTask.createDefaultParametersAsync();
         routeParametersFuture.addDoneListener(new Runnable() {
@@ -2385,7 +2413,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
         //updateIncident();
 
         //draw incident icon on map
-        BitmapDrawable redwarn = (BitmapDrawable) ContextCompat.getDrawable(this, R.mipmap.redwarn);
+        BitmapDrawable redwarn = (BitmapDrawable) ContextCompat.getDrawable(this, mipmap.redwarn);
         PictureMarkerSymbol redwarnpms = new PictureMarkerSymbol(redwarn);
         redwarnpms.setHeight(32);
         redwarnpms.setWidth(32);
@@ -2439,7 +2467,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
                 str_nextIncidentStatus = INCIDENT_ARRIVE_LUP_TIME;
                 iv.setImageResource(0);
                 //iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.waypoint_enter));
-                iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.ccp_in_clear));
+                iv.setImageDrawable(this.getResources().getDrawable(mipmap.ccp_in_clear));
 
                 //ZN - 20210116
                 tv_statusText.setText("Arrive Scene");
@@ -2471,7 +2499,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
                 //str_nextIncidentStatus = INCIDENT_LEFT_LUP_TIME;
                 iv.setImageResource(0);
                 //iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.waypoint_exit));
-                iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.ccp_out_clear));
+                iv.setImageDrawable(this.getResources().getDrawable(mipmap.ccp_out_clear));
 
                 //ZN - 20210116
                 //tv_statusText.setText("Left Link Up Point");
@@ -2543,7 +2571,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
                 str_nextIncidentStatus = INCIDENT_ARRIVE_EVACPT_TIME;
                 iv.setImageResource(0);
                 //iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.red_cross_enter));
-                iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.hospital_in_clear));
+                iv.setImageDrawable(this.getResources().getDrawable(mipmap.hospital_in_clear));
 
                 //ZN - 20210116
                 tv_statusText.setText("Arrive Hospital");
@@ -2577,7 +2605,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
                 str_nextIncidentStatus = INCIDENT_LEFT_EVACPT_TIME;
                 iv.setImageResource(0);
                 //iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.red_cross_exit));
-                iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.hospital_out_clear));
+                iv.setImageDrawable(this.getResources().getDrawable(mipmap.hospital_out_clear));
 
                 //ZN - 20210116
                 tv_statusText.setText("Left Hospital");
@@ -2609,7 +2637,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
                 //iv = (ImageView) findViewById(R.id.iv_leftEvacPt);
                 iv.setImageResource(0);
                 //iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.base_enter));
-                iv.setImageDrawable(this.getResources().getDrawable(R.mipmap.base_in_clear));
+                iv.setImageDrawable(this.getResources().getDrawable(mipmap.base_in_clear));
 
                 //ZN - 20210116
                 tv_statusText.setText("Arrive Base");
@@ -2656,7 +2684,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 
                 mainLayout.setVisibility(LinearLayout.INVISIBLE);
 
-                LinearLayout iv_bg = (LinearLayout) findViewById(R.id.iv_bg);
+                LinearLayout iv_bg = (LinearLayout) findViewById(id.iv_bg);
                 iv_bg.setVisibility(LinearLayout.INVISIBLE);
 
                 iv_phone.setVisibility(View.INVISIBLE);
@@ -2681,7 +2709,7 @@ public class MainActivity<INCIDENT> extends BaseActivity{
 
                 mainLayout.setVisibility(LinearLayout.INVISIBLE);
 
-                LinearLayout ivbg = (LinearLayout) findViewById(R.id.iv_bg);
+                LinearLayout ivbg = (LinearLayout) findViewById(id.iv_bg);
                 ivbg.setVisibility(LinearLayout.INVISIBLE);
 
                 iv_phone.setVisibility(View.INVISIBLE);

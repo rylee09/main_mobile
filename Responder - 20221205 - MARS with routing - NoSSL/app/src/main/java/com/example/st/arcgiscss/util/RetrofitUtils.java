@@ -174,6 +174,10 @@ public class RetrofitUtils {
         //ZN - 20211201 cancel task assignment
         String GETCANCELLEDINCIDENT = "getCancelledIncident";
 
+        String GETNOTIFICATIONUPDATE = "getNotificationUpdate";
+
+        String RESETNOTIFICATIONUPDATE = "resetNotificationUpdate";
+
         String GETPEERREADINESSSTATUS = "getPeerReadinessStatus";
 
         //ZN - 20220208 check for valid IMEI
@@ -315,6 +319,15 @@ public class RetrofitUtils {
         @FormUrlEncoded
         @POST(GETCANCELLEDINCIDENT)
         Call<JsonObject> getCancelledIncident(@FieldMap Map<String, String> maps);
+
+        //ZN - 20211201 get notification update
+        @FormUrlEncoded
+        @POST(GETNOTIFICATIONUPDATE)
+        Call<JsonObject> getNotificationUpdate(@FieldMap Map<String, String> maps);
+
+        @FormUrlEncoded
+        @POST(RESETNOTIFICATIONUPDATE)
+        Call<JsonObject> resetNotificationUpdate(@FieldMap Map<String, String> maps);
 
         //ZN - 20220125 consolidate peer readiness method call
         @FormUrlEncoded
