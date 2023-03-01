@@ -126,6 +126,7 @@ public class RetrofitUtils {
         //ZN - 20200607
         String SETINCIDENTCOMPLETE = "setIncidentComplete";
 
+        String SETRESPONDERATBASE= "setresponderAtbase";
         //ZN - 20201203
         String SETINCIDENTSTATUS = "setIncidentStatus";
 
@@ -152,7 +153,7 @@ public class RetrofitUtils {
 
         //ZN - 20210616
         String UPDATERESPONDERINCIDENTINFO = "updateResponderIncidentInfo";
-
+        String GETINCIDENTFACTS="getIncidentFacts";
         //ZN - 20210627
         String PROCESSSYSTEMREADY = "processSystemReady";
 
@@ -172,6 +173,10 @@ public class RetrofitUtils {
 
         //ZN - 20211201 cancel task assignment
         String GETCANCELLEDINCIDENT = "getCancelledIncident";
+
+        String GETNOTIFICATIONUPDATE = "getNotificationUpdate";
+
+        String RESETNOTIFICATIONUPDATE = "resetNotificationUpdate";
 
         String GETPEERREADINESSSTATUS = "getPeerReadinessStatus";
 
@@ -233,6 +238,10 @@ public class RetrofitUtils {
         @POST(SETINCIDENTCOMPLETE)
         Call<JsonObject> setIncidentComplete(@FieldMap Map<String, String> maps);
 
+        @FormUrlEncoded
+        @POST(SETRESPONDERATBASE)
+        Call<JsonObject> setresponderAtbase(@FieldMap Map<String, String> maps);
+
         //ZN - 20201203
         @FormUrlEncoded
         @POST(SETINCIDENTSTATUS)
@@ -278,6 +287,9 @@ public class RetrofitUtils {
         @POST(UPDATERESPONDERINCIDENTINFO)
         Call<JsonObject> updateResponderIncidentInfo(@FieldMap Map<String, String> maps);
 
+        @FormUrlEncoded
+        @POST(GETINCIDENTFACTS)
+        Call<JsonObject> getIncidentFacts(@FieldMap Map<String, String> maps);
         //ZN - 20210627
         @FormUrlEncoded
         @POST(PROCESSSYSTEMREADY)
@@ -313,6 +325,15 @@ public class RetrofitUtils {
         @FormUrlEncoded
         @POST(GETCANCELLEDINCIDENT)
         Call<JsonObject> getCancelledIncident(@FieldMap Map<String, String> maps);
+
+        //ZN - 20211201 get notification update
+        @FormUrlEncoded
+        @POST(GETNOTIFICATIONUPDATE)
+        Call<JsonObject> getNotificationUpdate(@FieldMap Map<String, String> maps);
+
+        @FormUrlEncoded
+        @POST(RESETNOTIFICATIONUPDATE)
+        Call<JsonObject> resetNotificationUpdate(@FieldMap Map<String, String> maps);
 
         //ZN - 20220125 consolidate peer readiness method call
         @FormUrlEncoded

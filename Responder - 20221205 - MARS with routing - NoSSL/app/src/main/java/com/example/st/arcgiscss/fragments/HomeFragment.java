@@ -116,6 +116,12 @@ public class HomeFragment extends D3Fragment {
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(myCancelledIncidentReceiver,
                 new IntentFilter("NewCancelledIncidentReceiver"));
 
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(myUpdatedNotification,
+                new IntentFilter("NewCancelledIncidentReceiver"));
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(myCancelledIncidentReceiver,
+                new IntentFilter("NewCancelledIncidentReceiver"));
+
         //ZN - 20220125 consolidate peer readiness method call
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(myPeerReadinessMsgReceiver,
                 new IntentFilter("NewPeerReadinessMsgReceiver"));
@@ -251,6 +257,9 @@ public class HomeFragment extends D3Fragment {
         //ZN - 20211201 cancel task assignment
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(myCancelledIncidentReceiver);
 
+
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(myUpdatedNotification);
+
         //ZN - 20220125 consolidate peer readiness method call
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(myPeerReadinessMsgReceiver);
     }
@@ -313,6 +322,18 @@ public class HomeFragment extends D3Fragment {
             Log.i("INCIDENT", "[myCancelledIncidentReceiver] incident cancelled");
             String status = (String) intent.getExtras().getSerializable("cancelled_incident");
             updateSystemReady(NewMainActivity.SYSTEM_CANCELLED);
+        }
+    };
+
+    //update message notifications
+    private final BroadcastReceiver myUpdatedNotification = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, android.content.Intent intent) {
+            Log.i("onReceive", "[myUpdatedNotification] status onReceive");
+            Log.i("INCIDENT", "[myUpdatedNotification] incident cancelled");
+            String status = (String) intent.getExtras().getSerializable("updated_notfication");
+            updateSystemReady(NewMainActivity.SYSTEM_UPDATED);
         }
     };
 
