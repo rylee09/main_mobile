@@ -108,6 +108,8 @@ public class RetrofitUtils {
 
     public interface IRetrofitServer<T> {
 
+        String GETINCIDENTBYID = "getIncidentById";
+
         String GETINCIDENTLOCATIONLIST = "getIncidentLocationList";
 
         String GETINCIDENTRECORD = "getIncidentRecord";
@@ -201,11 +203,19 @@ public class RetrofitUtils {
         //ZN - 20220930 for Export create Incident
         String CREATEEXPORTINCIDENT = "createExportIncident";
 
+        //RY
+        String TRIGGERFROMMOBILE = "triggerFromMobile";
+
+
+
         @GET(GETINCIDENTLOCATIONLIST)
         Call<JsonObject> getIncidentLocationList();
 
         @GET(GETINCIDENTRECORD)
         Call<JsonObject> getIncidentRecord(@QueryMap Map<String,String> maps);
+
+        @GET(GETINCIDENTBYID)
+        Call<JsonObject> getIncidentById(@QueryMap Map<String,String> maps);
 
         @GET(GETINCIDENTTYPELIST)
         Call<JsonObject> getIncidentTypeList();
@@ -213,6 +223,7 @@ public class RetrofitUtils {
         @FormUrlEncoded
         @POST(CREATEPOSITIONRECORD)
         Call<ResponseBody> createPositionRecord(@FieldMap Map<String,String> maps);
+
 
         @FormUrlEncoded
         @POST(CREATEINCIDENT)
@@ -367,6 +378,10 @@ public class RetrofitUtils {
         @FormUrlEncoded
         @POST(CREATEEXPORTINCIDENT)
         Call<ResponseBody> createExportIncident(@FieldMap Map<String,String> maps);
+
+        @FormUrlEncoded
+        @POST(TRIGGERFROMMOBILE)
+        Call<JsonObject> triggerFromMobile(@FieldMap Map<String, String> maps);
 
     }
 

@@ -92,6 +92,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
@@ -958,6 +959,9 @@ public class NewMainActivity extends BaseActivity {
                 //activation_flag = MAIN_ACTIVATED;
 
                 //display notification
+
+
+
                 createActivationNotificationAndIntent();
                 Notification n = builder.build();
                 n.flags |= Notification.FLAG_INSISTENT;
@@ -1162,27 +1166,42 @@ public class NewMainActivity extends BaseActivity {
                     Log.i("ERS_EVENT", "[NewCancelledIncidentReceiver] cancel incident notification received");
 
                     String status = (String) intent.getExtras().getSerializable("cancelled_incident");
-                    Intent fragIntent = new Intent("NewCancelledIncidentReceiver");
-                    fragIntent.putExtra("cancelled_incident", status);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(fragIntent);
 
-                    //ZN - 20211201 cancel task assignment
-                    MyApplication.getInstance().setRcvIncidentNotification(false);
-                    unregisterCancelledIncidentListener();
+                    if (Objects.equals(status, "CANCELLED")) {
+                        Log.i("ERS_EVENT", "cancelled incident");
 
-                    //ZN - 20211201 cancel task assignment - cancel notification
-                    createCancellationNotificationAndIntent();
-                    Notification n = builder.build();
-                    n.flags |= Notification.FLAG_INSISTENT;
-                    notificationManagerCompat.notify(102, n);
 
-                    //ZN - 20220703 bug fix to enable buttons after incident cancelled
-                    btn_task_request.setEnabled(true);
-                    btn_more.setEnabled(true);
-                    btn_task_assign.setEnabled(true);
+                        Intent fragIntent = new Intent("NewCancelledIncidentReceiver");
+                        fragIntent.putExtra("cancelled_incident", status);
+                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(fragIntent);
 
-                    //ZN - 20220720 restore activation - clear activation log
-                    LogcatHelper.clearActivationLog();
+                        //ZN - 20211201 cancel task assignment
+                        MyApplication.getInstance().setRcvIncidentNotification(false);
+                        unregisterCancelledIncidentListener();
+
+                        //ZN - 20211201 cancel task assignment - cancel notification
+                        createCancellationNotificationAndIntent();
+                        Notification n = builder.build();
+                        n.flags |= Notification.FLAG_INSISTENT;
+                        notificationManagerCompat.notify(102, n);
+
+                        //ZN - 20220703 bug fix to enable buttons after incident cancelled
+                        btn_task_request.setEnabled(true);
+                        btn_more.setEnabled(true);
+                        btn_task_assign.setEnabled(true);
+
+                        //ZN - 20220720 restore activation - clear activation log
+                        LogcatHelper.clearActivationLog();
+
+                    } else if (Objects.equals(status, "NEW")) {
+                        Log.i("ERS_EVENT", "new incident");
+
+
+
+
+                    }
+
+
                 }
             }
         }

@@ -19,6 +19,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.location.GpsSatellite;
 import android.location.GpsStatus;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.AudioAttributes;
 import android.net.Uri;
@@ -29,9 +30,12 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -103,6 +107,7 @@ import com.example.st.arcgiscss.util.RetrofitUtils;
 import com.example.st.arcgiscss.util.ToastUtil;
 import com.example.st.arcgiscss.views.RotationLoadingView;
 import com.google.gson.JsonObject;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -130,26 +135,28 @@ import static com.example.st.arcgiscss.R.*;
 
 //import com.example.st.arcgiscss.util.SimulatedLocationDataSource;
 
-public class MainActivity<INCIDENT> extends BaseActivity{
+public class MainActivity<INCIDENT> extends BaseActivity implements LocationListener {
     private RouteTracker mRouteTracker;
     private Graphic mRouteAheadGraphic;
     private Graphic mRouteTraveledGraphic;
 
-    private ImageView showForm;
-    private TextView showDate;
+
+    private MaterialSpinner showIncidentCategory;
+    private TextView showTime,showDate, testing;
+
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     @D3View(click = "onClick")
     LinearLayout ll_iv_tips, ll_chat, ll_self, ll_incident,ll_offline;
     @D3View(click = "onClick")
-    ImageView iv_tips, iv_offline, iv_chat, iv_menu, iv_self,  iv_incident, iv_c_incident, iv_phone;
+    ImageView iv_tips, iv_offline, iv_chat, iv_menu, iv_self,  iv_incident, iv_c_incident, iv_phone,showForm;
 
     @D3View
     RelativeLayout rl_main;
 
     @D3View
-    TextView tv_gonewmain;
+    TextView tv_gonewmain, tv_dtg, showLocation;
 
     @D3View
     RotationLoadingView item_loading_image;
@@ -273,10 +280,23 @@ public class MainActivity<INCIDENT> extends BaseActivity{
     //ZN - 20220720 restore activation - shared NewIncident object
     private NewIncident p_incident;
 
+    LocationManager locationManager;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        MaterialSpinner spinner = findViewById(R.id.sp_incident_type);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.incident_category, android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner.setAdapter(adapter);
+//        spinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener) this);
+
+//        String[] arraySpinner = new String[]{
+//                "Fire","Trespassing"
+//        };
+//        MaterialSpinner ms = findViewById(R.id.sp_incident_type);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,arraySpinner);
+//        ms.setAdapter(adapter);
 
 //        iv_createIncident = findViewById(R.id.iv_createIncident);
 
@@ -285,16 +305,31 @@ public class MainActivity<INCIDENT> extends BaseActivity{
         setContentView(layout.activity_main);
 
         showForm = findViewById(id.iv_createIncident);
-//        showDate = findViewById(id.tv_dtg);
-//        actualForm = findViewById(R.layout.acti_incident);
+        showLocation = findViewById(id.sp_location);
 
         showForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-setContentView(layout.acti_incident);
-//showDate.setText("today's date");
+                //setContentView(layout.acti_incident);
+                Intent intent = new Intent(MainActivity.this, IncidentActivity.class);
+                startActivity(intent);
+//                getLocation();
             }
         });
+
+
+//        showIncidentCategory = findViewById(id.sp_incident_type);
+//        showIncidentCategory.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String[] arraySpinner = new String[]{
+//                        "Fire","Trespassing"
+//                };
+//                MaterialSpinner ms = findViewById(R.id.sp_incident_type);
+//                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arraySpinner);
+//                ms.setAdapter(adapter);
+//            }
+//        });
 //        tv_dtg.setText(incident.getTimestamp());
 
 
@@ -326,6 +361,14 @@ setContentView(layout.acti_incident);
             Log.i("SL", "onCreate else");
             startLocation();
         }
+
+
+
+//        if (incident.getTimestamp() != null) {
+//            tv_dtg.setText(incident.getTimestamp());
+//        }
+
+
 
         //ZN - 20201216
         //create notification channel for app notification
@@ -459,13 +502,65 @@ setContentView(layout.acti_incident);
 //        showRoute(new Point(99.24142172666781, 14.002519041014251), new Point(99.26478024687097,14.005419214772296), 1);
 //        startReadyNavigation();
 
+
+
     }
 
 
+
+    void getLocation(){
+        try{
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+
+        }catch (SecurityException e){
+            e.printStackTrace();
+            System.out.println("error when showing location");
+        }
+    }
 
     private void initView() {
         getIncidentType();
+//        createIncident();
+//            tv_dtg.setText("hello");
+
     }
+
+//    private void createIncident() {
+//        Map<String,String> params = new HashMap<>();
+////        params.put("Incident_id", incident.getId());
+////        params.put("Responder_id",  CacheUtils.getUserId(this));
+////        params.put("Location", tv_act_incidentview_camplocation.getText().toString());
+//        //params.put("currentTime", str_selectedcondtion);
+//        //params.put("desc", tv_act_incidentview_incidentdescription.getText().toString());
+////        params.put("Description", incident.getDescription());
+////        params.put("Location", incident.getLatLon());
+////        params.put("Casualty_Condition", "");
+////        params.put("Remarks", et_act_incidentview_responderremarks.getText().toString());
+//
+//
+//
+//
+//        //Log.i("TEST", "[UpdateIncidentActivity] msg: " + incident.getId() + " " + CacheUtils.getUserId(this) + " " + str_selectedcondtion + " " + tv_act_incidentview_incidentdescription.getText().toString()+ " " + tv_act_incidentview_camplocation.getText().toString() + " " + et_act_incidentview_responderremarks.getText().toString());
+//
+//        Call<JsonObject> call = RetrofitUtils.getInstance().createIncident(params);
+//
+//        call.enqueue(new Callback<JsonObject>() {
+//            @Override
+//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//                showToast("Incident Created");
+//                finish();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<JsonObject> call, Throwable t) {
+//                Log.e("TEST",t.getMessage().toString());
+//                showToast("Failure to create Incident ");
+//                finish();
+//            }
+//        });
+//    }
 
     private void getIncidentType() {
         Call<JsonObject> call = RetrofitUtils.getInstance().getIncidentTypeList();
@@ -493,6 +588,48 @@ setContentView(layout.acti_incident);
         });
 
     }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        showLocation.setText("Current Location: " + location.getLatitude() + ", " + location.getLongitude());
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
+//    @Override
+//    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//    }
+//
+//    @Override
+//    public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//    }
+
+
+//    @Override
+//    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//        String text = adapterView.getItemAtPosition(i).toString();
+//        Toast.makeText(adapterView.getContext(), text, Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @Override
+//    public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//    }
 
 
 //    public class NewMQTTMsgReceiver extends BroadcastReceiver {
@@ -2231,7 +2368,7 @@ setContentView(layout.acti_incident);
             iv.setImageDrawable(this.getResources().getDrawable(mipmap.base_in_clear));
 
             //ZN - 20210116
-            tv_statusText.setText("BACK AT BASE");
+            tv_statusText.setText("Return To Base");
             iv.setVisibility(View.VISIBLE);
             tv_statusText.setVisibility(View.VISIBLE);
 
@@ -2240,7 +2377,7 @@ setContentView(layout.acti_incident);
             LinearLayout iv_bg = (LinearLayout) findViewById(id.iv_bg);
             iv_bg.setVisibility(LinearLayout.VISIBLE);
 
-            iv_phone.setVisibility(View.VISIBLE);
+//            iv_phone.setVisibility(View.VISIBLE);
         }else{
             iv.setVisibility(View.INVISIBLE);
             str_nextIncidentStatus = INCIDENT_LEFT_BASE_TIME;
@@ -2352,7 +2489,7 @@ setContentView(layout.acti_incident);
                             //ZN - 20200624
                             //mRouteOverlay.getGraphics().add(CCP_pt_grap);
 
-                            // set the map view view point to show the whole route
+                            // set the map view view point to show the whole routeisNavigationStarted
                             mMapView.setViewpointAsync(new Viewpoint(routeGeometry.getExtent()));
 
                             //ZN - 20200123
@@ -2508,6 +2645,10 @@ setContentView(layout.acti_incident);
                 tv_statusText.setText("Left Scene");
                 str_nextIncidentStatus = INCIDENT_RETURN_BASE_TIME;
                 str_nextIncidentStatus = INCIDENT_COMPLETE;
+                if (isNavigationStarted) {
+                    removeRoute();
+                    stopNavigation();
+                }
 
                 break;
 

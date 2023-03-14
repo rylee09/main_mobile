@@ -50,6 +50,7 @@
                         android:text="Date"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
+
                 </LinearLayout>
 
                 <TextView
@@ -57,13 +58,13 @@
                     android:id="@+id/tv_dtg"
                     android:textColor="@color/incident_textcolor"
                     android:textSize="18sp"
-                    android:paddingStart="20dp"
+                    android:paddingStart="10dp"
                     android:background="@drawable/incident_border"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" />
+                    android:layout_height="80dp" />
             </LinearLayout>
 <!--            <LinearLayout-->
 <!--                android:layout_marginTop="20dp"-->
@@ -243,7 +244,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
-                <com.jaredrummler.materialspinner.MaterialSpinner
+                <Spinner
                     android:id="@+id/sp_incident_type"
                     app:ms_arrow_tint="@color/white"
                     app:ms_background_color="@color/incident_border"
@@ -270,6 +271,11 @@
                         android:src="@mipmap/icon_type"
                         android:layout_width="20dp"
                         android:layout_height="20dp" />
+<!--                    <Button-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Get Current Location"-->
+<!--                        android:id="@+id/getLocationBtn"/>-->
                     <TextView
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/white"
@@ -278,16 +284,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
-                <com.jaredrummler.materialspinner.MaterialSpinner
+                <TextView
+                    android:gravity="center_vertical"
                     android:id="@+id/sp_location"
-                    app:ms_arrow_tint="@color/white"
-                    app:ms_background_color="@color/incident_border"
+                    android:textColor="@color/incident_textcolor"
+                    android:textSize="15sp"
+                    android:text="1.360877541593841,103.82605167276293"
+                    android:paddingStart="20dp"
+                    android:background="@drawable/incident_border"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/incident_textcolor"
                     android:layout_width="match_parent"
-                    android:textSize="18sp"
                     android:layout_height="50dp" />
             </LinearLayout>
 
@@ -331,40 +339,40 @@
 <!--                    app:ms_background_color="@color/incident_border" />-->
 
 <!--            </LinearLayout>-->
-            <LinearLayout
-                android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent">
-                <LinearLayout
-                    android:layout_marginLeft="20dp"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:src="@mipmap/icon_type"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp" />
-                    <TextView
-                        android:layout_marginLeft="5dp"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:text="@string/condition_of_casualties"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-                <com.jaredrummler.materialspinner.MaterialSpinner
-                    android:id="@+id/sp_condition"
-                    app:ms_arrow_tint="@color/white"
-                    app:ms_background_color="@color/incident_border"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/incident_textcolor"
-                    android:layout_width="match_parent"
-                    android:textSize="18sp"
-                    android:layout_height="50dp" />
-            </LinearLayout>
+<!--            <LinearLayout-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:orientation="vertical"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_width="match_parent">-->
+<!--                <LinearLayout-->
+<!--                    android:layout_marginLeft="20dp"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content">-->
+<!--                    <ImageView-->
+<!--                        android:src="@mipmap/icon_type"-->
+<!--                        android:layout_width="20dp"-->
+<!--                        android:layout_height="20dp" />-->
+<!--                    <TextView-->
+<!--                        android:layout_marginLeft="5dp"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:text="@string/condition_of_casualties"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content" />-->
+<!--                </LinearLayout>-->
+<!--                <Spinner-->
+<!--                    android:id="@+id/sp_condition"-->
+<!--                    app:ms_arrow_tint="@color/white"-->
+<!--                    app:ms_background_color="@color/incident_border"-->
+<!--                    android:layout_marginLeft="20dp"-->
+<!--                    android:layout_marginRight="20dp"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:textColor="@color/incident_textcolor"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:textSize="18sp"-->
+<!--                    android:layout_height="50dp" />-->
+<!--            </LinearLayout>-->
 <!--            <LinearLayout-->
 <!--                android:layout_marginTop="20dp"-->
 <!--                android:orientation="vertical"-->
@@ -455,6 +463,47 @@
                         android:padding="2dp"
                         android:textColor="@color/incident_textcolor" />
                 </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_addImage"
+                        android:layout_width="61dp"
+                        android:layout_height="68dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="-10dp"
+                        android:src="@drawable/add_button_main_foreground" />
+
+                    <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                        android:layout_marginTop="25dp"
+                    android:layout_marginRight="10dp"
+                    android:text="Add Image"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+
+
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
 

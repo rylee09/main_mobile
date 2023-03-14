@@ -557,8 +557,15 @@ public class GetNewInfoService extends Service {
                     }
 
                     resp_msg = jsonObject.getString("resp_msg");
-                    if (resp_msg.equalsIgnoreCase("CANCELLED")||resp_msg.equalsIgnoreCase("NEW"))
+
+                    Log.d(TAG, "1: " + resp_msg );
+
+                    Log.d(TAG, "2: " + resp_code);
+                    if (resp_msg.equalsIgnoreCase("CANCELLED")||resp_msg.equalsIgnoreCase("NEW")) {
                         intent.putExtra("cancelled_incident", resp_msg);
+                    }else if (resp_msg.equalsIgnoreCase("NEW")){
+                        intent.putExtra("new_cancelled_incident", resp_msg);
+                    }
 
                 } catch(JSONException e){ e.printStackTrace(); }
 
@@ -577,6 +584,40 @@ public class GetNewInfoService extends Service {
     private void getNotificationUpdate() {
         Map<String,String> params = new HashMap<>();
         params.put("incident_id", application.getCurrentIncidentID());
+        Map<String,String> params1 = new HashMap<>();
+         params1.put("incidentId", application.getCurrentIncidentID());
+
+        Call call1 = RetrofitUtils.getInstance().getIncidentById(params1);
+        call1.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                try {
+                    JSONObject jsonObject =  new JSONObject(response.body().toString());
+                    Log.d("debugGlenn", jsonObject.toString());
+                    JSONObject resp_msg = jsonObject.getJSONObject("resp_msg");
+                    if(resp_msg.toString() == "Y"){
+                        Log.d("New Details", jsonObject.toString());
+                    }else{
+                        return;
+                    }
+
+                    // when update the change the status to "RNEW"
+
+                    // 1st get the status using jsonObject.getString("status");
+
+                    // 2nd create condition to send new details or not
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+
+
         Call<JsonObject> call = RetrofitUtils.getInstance().getNotificationUpdate(params);
         call.enqueue(new Callback<JsonObject>() {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -611,6 +652,7 @@ public class GetNewInfoService extends Service {
                 try {
 //                    Log.i("POLLING","[GetNewInfoService] getNotificationUpdate(): "+ response.body().toString());
                     jsonObject = new JSONObject(response.body().toString());
+                    Log.d("debugGlenn", jsonObject.toString());
                     int resp_code = jsonObject.getInt("resp_code");
                     if (resp_code == 0){
                         return;
@@ -620,7 +662,7 @@ public class GetNewInfoService extends Service {
                     NotificationManager notificationManager = getSystemService(NotificationManager.class);
                     notificationManager.notify(110, builder.build());
                     //before that do a sleep for 30 sec,call api to set the thing to -1
-                    sleep(30000);
+                    sleep(300);
 
 //                    resetNotificationUpdate();
 
@@ -633,7 +675,24 @@ public class GetNewInfoService extends Service {
 
                 Log.i("BROADCAST", "sending broadcast: NewUpdateNotification");
                 System.out.println(intent);
-                sendBroadcast(intent);
+
+//                try {
+//                    jsonObject = new JSONObject(response.body().toString());
+//
+//                    Log.d("debugGlenn", jsonObject.toString());
+//                    int resp_code = jsonObject.getInt("resp_code");
+//                    if (resp_code == "Y") {
+//                        return;
+//                    } else {
+//
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+
+                sendBroadcast(intent);//calls for "New Details"
+
+
 
 
 //                NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);

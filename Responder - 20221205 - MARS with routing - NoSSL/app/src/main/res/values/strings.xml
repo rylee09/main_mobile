@@ -76,4 +76,24 @@
     <string name="config_data_sdcard_offline_dir">ArcGIS/</string>
     <string name="singapore_mmpk">Singapore</string>
     <string name="login_error">Wrong username/ password</string>
+    <string name="dropdown_category">dropDownMenuExample</string>
+    <string-array name="incident_category">
+        <item>Fire</item>
+        <item>Extrication</item>
+        <item>Medical-based</item>
+        <item>Intrusion</item>
+        <item>Trespassing</item>
+        <item>Drone</item>
+        <item>Public Order</item>
+        <item>Road Traffic Accident</item>
+        <item>Ammunition/Firearms/Explosives</item>
+    </string-array>
+    <string-array name="incident_responder">
+        <item>Responder 1</item>
+        <item>Responder 2</item>
+        <item>Responder 3</item>
+        <item>Responder 4</item>
+        <item>Responder 5</item>
+        <item>Responder 6</item>
+    </string-array>
 </resources>
